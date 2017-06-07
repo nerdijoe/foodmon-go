@@ -13,7 +13,7 @@ methods.getAll = function(req, res){
 
 methods.getById = function(req, res){
   let user_id = req.decoded._id;
-  User.find({id : user_id })
+  User.find({_id : user_id })
 	.populate('interestArr')
 	.exec((error, records) => {
     if(error){
