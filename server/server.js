@@ -40,11 +40,16 @@ passport.use(new Strategy(function(username, password, cb) {
     username: username
   }, function(err, user) {
     if (err) cb(err)
-    if (passwordHash.verify(password, user.password)) {
-      cb(null, user)
-    } else {
-      cb('Password is not correct !')
+    if(!user)
+      cb('User does not exist')
+    else {
+      if (passwordHash.verify(password, user.password)) {
+        cb(null, user)
+      } else {
+        cb('Password is not correct !')
+      }
     }
+
   })
 }));
 

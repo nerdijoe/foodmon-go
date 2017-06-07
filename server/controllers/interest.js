@@ -24,7 +24,7 @@ methods.getAll = function(req, res){
 }
 
 methods.getById = function(req, res){
-  Interest.find({_id : req.params.id })
+  Interest.findOne({_id : req.params.id })
 	.exec((error, records) => {
     if(error){
       res.json({error})
