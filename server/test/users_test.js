@@ -8,7 +8,6 @@ var server = require('../server');
 var User = require('../models/users');
 let passwordHash = require('password-hash');
 
-
 describe('User', () => {
 
   let token = ''
@@ -158,7 +157,17 @@ describe('User', () => {
       passwordHash.verify("haha", result.body.password).should.equal(true)
       result.body.interestArr.should.be.an('array')
 
-      done()
+      chai.request(server)
+      .get(`/users`)
+      .set('token', token)
+      .end( (err, result) => {
+        console.log("*** check users array length", result.body);
+        result.should.have.status(200)
+        result.body.should.be.an('array')
+        result.body.length.should.equal(0)
+        done()
+      })
+
     })
 
   });
