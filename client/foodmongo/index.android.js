@@ -14,38 +14,24 @@ import {
 import axios from 'axios'
 
 import navigation from './src/assets/map/navigation.png'
+// import AnimatedViews from './src/components/AnimatedViews.js'
 
 export default class foodmongo extends Component {
   constructor() {
     super()
     this.state= {
-      initialPosition: 'unknown',
-      lastPosition: 'unknown',
+      lastPosition: {
+        coords: {
+          latitude: 6,
+          longitude: 108
+        }
+      },
       markers: [],
       restaurants: [],
     }
   }
 
   componentDidMount() {
-   navigator.geolocation.getCurrentPosition(
-     (position) => {
-       var initialPosition = position;
-       this.setState({initialPosition});
-       console.log(initialPosition);
-       this.setState({
-         markers: [{
-           latlng: {
-             latitude: this.state.initialPosition.coords.latitude,
-             longitude: this.state.initialPosition.coords.longitude
-           },
-           title: 'Test',
-           description: 'Test'
-         }]
-       })
-     },
-     (error) => alert(JSON.stringify(error)),
-     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-   );
    navigator.geolocation.watchPosition((position) => {
      var lastPosition = position;
      this.setState({lastPosition});
@@ -60,18 +46,19 @@ export default class foodmongo extends Component {
          description: 'Test'
        }]
      })
-   });
-   const that=this
-   axios.get('https://developers.zomato.com/api/v2.1/geocode?lat=-6.26091&lon=106.781', {
-     headers: {
-       user_key: '2b958b1e249a2a26c68081cafe451194'
-     }
-   }).then(res=>{
-     that.setState({
-       restaurants: res.data.nearby_restaurants
+     const that=this
+     axios.get('https://developers.zomato.com/api/v2.1/geocode?lat='+this.state.lastPosition.coords.latitude.toString()+'&lon='+this.state.lastPosition.coords.longitude.toString(), {
+       headers: {
+         user_key: '2b958b1e249a2a26c68081cafe451194'
+       }
+     }).then(res=>{
+       that.setState({
+         restaurants: res.data.nearby_restaurants
+       })
+       console.log(that.state.restaurants);
      })
-     console.log(that.state.restaurants);
-   })
+   });
+
 
  }
 
@@ -81,10 +68,10 @@ export default class foodmongo extends Component {
         <MapView
           style={styles.map}
           region={{
-            latitude: -6.2609076,
-            longitude: 106.7814521,
+            latitude: this.state.lastPosition.coords.latitude || 6,
+            longitude: this.state.lastPosition.coords.longitude || 108,
             latitudeDelta: 0.015,
-            longitudeDelta: 0.0050,
+            longitudeDelta: 0.0150,
           }}
         >
         {this.state.markers.map(marker => (
@@ -106,6 +93,11 @@ export default class foodmongo extends Component {
       </View>
     );
   }
+  // render(){
+  //   return(
+  //     <AnimatedViews/>
+  //   )
+  // }
 }
 
 const styles = StyleSheet.create({
