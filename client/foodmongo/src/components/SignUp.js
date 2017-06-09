@@ -28,7 +28,7 @@ const styles = {
     justifyContent: 'center',
   },
   myForm: {
-    padding: 10,
+    padding: 20,
   },
   myButton: {
     padding: 10,
@@ -68,7 +68,7 @@ class SignUp extends React.Component {
           </Body>
         </Header>
 
-        <Content>
+        <Content contentContainerStyle={{justifyContent: 'center'}}>
           <Form style={styles.myForm}>
             <Item floatingLabel>
               <Label>Name</Label>
