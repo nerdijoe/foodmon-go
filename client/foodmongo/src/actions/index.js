@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {
-  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN,
+  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, RESET_LOGIN
 } from './constants';
+import { Toast } from 'native-base';
 
 export const SignUp = (data) => {
   return {
@@ -10,7 +11,7 @@ export const SignUp = (data) => {
   };
 };
 
-export const signin = data => {
+export const signin = (data) => {
 	return dispatch => {
     axios.post('http://5d5e7777.ngrok.io/auth/signin', {
       username: data.username,
@@ -25,6 +26,12 @@ export const signin = data => {
     })
     .catch((err) => {
       console.log(err);
+      Toast.show({
+        text: 'Username and Password is not correct !',
+        position: 'bottom',
+        buttonText: 'Okay',
+        type: 'warning',
+      });
     });
   }
 }
@@ -33,6 +40,16 @@ export const fetch_login = data => {
 	return dispatch => {
     return dispatch({
 			type : FETCH_LOGIN,
+			data
+		})
+  }
+}
+
+export const reset_login = () => {
+	return dispatch => {
+    let data = true;
+    return dispatch({
+			type : RESET_LOGIN,
 			data
 		})
   }
