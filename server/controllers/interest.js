@@ -3,12 +3,24 @@ const methods = {}
 
 methods.insertOne = function(req, res){
   Interest.create({
-    name : req.body.name
+    cuisine_name : req.body.cuisine_name,
+    cuisine_id : req.body.cuisine_id,
 	}, function(error, record){
     if(error){
       res.json({error})
     } else {
       res.json(record)
+    }
+  })
+}
+
+methods.insertBulk = function(req, res) {
+  console.log("insertBulk", req.body)
+  Interest.collection.insert(req.body, (err, docs) => {
+    if(err){
+      res.json({err})
+    } else {
+      res.json(docs)
     }
   })
 }
@@ -37,7 +49,7 @@ methods.getById = function(req, res){
 methods.updateById = function(req, res){
   Interest.findByIdAndUpdate(req.params.id,
 		{ $set: {
-			name : req.body.name
+			cuisine_name : req.body.cuisine_name
 		}
 		},
 		{new: true})
