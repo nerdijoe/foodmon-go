@@ -13,6 +13,7 @@ import App from './src/App';
 import store from './src/store/manageStore';
 
 export default class foodmongo extends Component {
+  
   render() {
     AsyncStorage.getItem('Token', (err, result) => {
       console.log(result);

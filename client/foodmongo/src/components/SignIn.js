@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { signin } from '../actions';
 import { AsyncStorage } from 'react-native'
 import { Container, Text, Content, Item, Input, Label, Button } from 'native-base';
-import { Actions } from 'react-native-router-flux';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -16,10 +15,6 @@ class SignIn extends React.Component {
 
   onLogin() {
     this.props.signin(this.state);
-  }
-
-  onSignUp() {
-    Actions.signup();
   }
 
   render() {
@@ -51,7 +46,7 @@ class SignIn extends React.Component {
             ><Text>Sign In</Text>
             </Button>
 
-            <Text style={{ paddingTop: 50, fontSize: 15, color: 'blue', }} onPress={() => this.onSignUp() }>Don't have account, Sign Up</Text>
+            <Text style={{ paddingTop: 50, fontSize: 15, color: 'blue', }} onPress={() => this.onSignUp}>Don't have account, Sign Up</Text>
         </Content>
       </Container>
     );
