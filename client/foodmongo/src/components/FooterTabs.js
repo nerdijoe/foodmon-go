@@ -13,6 +13,8 @@ class FooterTabs extends Component {
       Actions.pop();
     } else if (key === 'signup') {
       Actions.signup();
+    } else if (key === 'signin') {
+      Actions.signin();
     } else {
       Actions.map();
     }
@@ -34,7 +36,7 @@ class FooterTabs extends Component {
             <Icon name="camera" />
             <Text>Camera</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('signup'); }}>
+          <Button vertical onPress={() => { this.onPressHandler('signin'); }}>
             <Icon name="person" />
             <Text>Sign Up</Text>
           </Button>
