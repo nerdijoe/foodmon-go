@@ -1,5 +1,5 @@
 import {
-  SIGN_UP, SIGN_IN, FETCH_LOGIN, UPDATE_USER_SUCCESS,
+  SIGN_UP, SIGN_IN, FETCH_LOGIN, UPDATE_USER_SUCCESS, RESET_LOGIN,
 } from '../actions/constants';
 
 const initialState = {
@@ -41,6 +41,19 @@ const fetch_login = (state, payload) => {
 	return newState
 }
 
+const reset_login = (state, payload) => {
+	let newData = {
+		username: '',
+		token: '',
+    _id: '',
+	}
+	let newState = {
+	 	...state,
+		login: { ...state.login, ...newData }
+  }
+	return newState
+}
+
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_UP: {
@@ -53,14 +66,15 @@ const UserReducer = (state = initialState, action) => {
     }
     case SIGN_IN: {
       return signin(state, action)
-      break;
     }
     case UPDATE_USER_SUCCESS: {
       return action.user;
     }
     case FETCH_LOGIN: {
       return fetch_login(state, action)
-      break;
+    }
+    case RESET_LOGIN: {
+      return reset_login(state, action)
     }
 
     default: return state;
