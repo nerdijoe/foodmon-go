@@ -1,10 +1,11 @@
 import MapView from 'react-native-maps';
 import React from 'react';
-import { Content, Card, CardItem, Left, Right, Body } from 'native-base';
-import { View, Image, Text} from 'react-native';
+import { Content } from 'native-base';
+import { Image, Text } from 'react-native';
 
 
 const Recommendation = props => (
+  <Content>
   <MapView.Marker
     coordinate={{
       latitude: Number(props.restaurant.location.latitude),
@@ -12,7 +13,10 @@ const Recommendation = props => (
     }}
   >
     <MapView.Callout>
-      <Image style={{ height: 150, width: 150 }} source={{ uri: props.restaurant.featured_image }} />
+      <Image
+        style={{ height: 150, width: 150 }}
+        source={{ uri: props.restaurant.featured_image }}
+      />
       <Text>{props.restaurant.name}</Text>
       <Text numberOfLines={2}>
         {props.restaurant.location.address}
@@ -22,6 +26,7 @@ const Recommendation = props => (
       </Text>
     </MapView.Callout>
   </MapView.Marker>
+  </Content>
 );
 
 
