@@ -13,7 +13,7 @@ methods.signin = function(req, res){
     email: req.user.email,
     _id: req.user._id
   }, process.env.SECRET_KEY);
-    res.send({token: token, username: username})
+    res.send({token: token, username: username, _id: req.user._id })
 }
 
 methods.signup = function(req, res){
