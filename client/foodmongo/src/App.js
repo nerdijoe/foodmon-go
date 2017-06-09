@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Image,
-  View,
-  Animated,
-  Text,
 } from 'react-native';
-import { Container, Content, Fab, Button, Icon, Footer, Body } from 'native-base';
+import {
+  Container,
+} from 'native-base';
 import { Router, Scene } from 'react-native-router-flux';
 
 import Map from './components/Map';

@@ -10,6 +10,26 @@ import { Container, Content } from 'native-base';
 import Recommendation from './Recommendation';
 import navigation from '../assets/map/navigation.png';
 
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+    // height: '90%',
+    // width: '100%',
+    // flex: 1,
+
+  },
+
+});
+
 export default class Map extends Component {
   constructor() {
     super();
@@ -31,39 +51,40 @@ export default class Map extends Component {
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        latitudeDelta: 0.00922*1.5,
-        longitudeDelta: 0.00421*1.5
+        latitudeDelta: 0.00922 * 1.5,
+        longitudeDelta: 0.00421 * 1.5,
       };
       this.onRegionChange(region, position.coords.accuracy);
       this.setState({
-      markers: [{
-        latlng: {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+        markers: [{
+          latlng: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+          title: 'Test',
+          description: 'Test',
+        }],
+      });
+
+      const that = this;
+      axios.get(`https://developers.zomato.com/api/v2.1/geocode?lat=${position.coords.latitude.toString()}&lon=${position.coords.longitude.toString()}`, {
+        headers: {
+          user_key: '2b958b1e249a2a26c68081cafe451194',
         },
-        title: 'Test',
-        description: 'Test'
-      }]
-    })
-    const that=this
-    axios.get('https://developers.zomato.com/api/v2.1/geocode?lat='+position.coords.latitude.toString()+'&lon='+position.coords.longitude.toString(), {
-      headers: {
-         user_key: '2b958b1e249a2a26c68081cafe451194'
-       }
-     }).then(res=>{
-       that.setState({
-         restaurants: res.data.nearby_restaurants
-       })
-       console.log(that.state.restaurants);
-     })
-   });
+      }).then((res) => {
+        that.setState({
+          restaurants: res.data.nearby_restaurants,
+        });
+        console.log(that.state.restaurants);
+      });
+    });
   }
 
   onRegionChange(region, gpsAccuracy) {
     this.setState({
       region,
-      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy
-    })
+      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
+    });
   }
 
   render() {
@@ -101,23 +122,3 @@ export default class Map extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    flex: 1,
-    height: '100%',
-    width: '100%',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-    // height: '90%',
-    // width: '100%',
-    // flex: 1,
-
-  },
-
-});
