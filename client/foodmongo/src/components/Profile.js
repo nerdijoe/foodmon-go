@@ -6,7 +6,6 @@ class Profile extends React.Component {
   render() {
     return (
       <Text>Profile</Text>
-      <Button></Button>
     );
   }
 }

@@ -15,7 +15,7 @@ class FooterTabs extends Component {
       Actions.signup();
     } else if (key === 'auth') {
         AsyncStorage.getItem('Token', (err, result) => {
-          if(result){
+          if(result) {
             Actions.profile();
           } else {
             Actions.signin();
