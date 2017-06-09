@@ -8,7 +8,32 @@ import {
   Input,
   Label,
   Button,
+  Header,
+  Body,
+  Title,
+  Left,
+  Right,
 } from 'native-base';
+
+const styles = {
+  container: {
+    backgroundColor: '#F0F0F0',
+    flex: 1,
+    // justifyContent: 'center',
+  },
+  header: {
+    justifyContent: 'center',
+  },
+  content: {
+    justifyContent: 'center',
+  },
+  myForm: {
+    padding: 10,
+  },
+  myButton: {
+    padding: 10,
+  }
+}
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -21,31 +46,51 @@ class SignUp extends React.Component {
     };
   }
 
+  handleSignUp() {
+    console.log("signup");
+    console.log(this.state);
+
+    // call reducer action for signup
+  }
+
+  handleChangeInput(stateName, text) {
+    this.setState({
+      [stateName]: text,
+    });
+  }
+
   render() {
     return (
-      <Container style={{ backgroundColor: '#F0F0F0' }} >
+      <Container style={styles.container} >
+        <Header style={styles.header}>
+          <Body>
+            <Title>Sign Up</Title>
+          </Body>
+        </Header>
+
         <Content>
-          <Form>
+          <Form style={styles.myForm}>
             <Item floatingLabel>
               <Label>Name</Label>
-              <Input />
+              <Input value={this.state.name} onChangeText={(text) => {this.handleChangeInput('name', text); }} />
             </Item>
             <Item floatingLabel>
               <Label>Email</Label>
-              <Input />
+              <Input value={this.state.email} onChangeText={(text) => {this.handleChangeInput('email', text); }} />
             </Item>
             <Item floatingLabel>
               <Label>Username</Label>
-              <Input />
+              <Input value={this.state.username} onChangeText={(text) => {this.handleChangeInput('username', text); }} />
             </Item>
             <Item floatingLabel last>
               <Label>Password</Label>
-              <Input secureTextEntry={true} />
+              <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => {this.handleChangeInput('password', text); }} />
             </Item>
-            <Button rounded success>
-              <Text>Sign Up</Text>
-            </Button>
+
           </Form>
+          <Button style={styles.myButton} rounded success onPress={() => { this.handleSignUp(); }}>
+            <Text>Sign Up</Text>
+          </Button>
         </Content>
       </Container>
     );
