@@ -13,7 +13,11 @@ class FooterTabs extends Component {
     // Actions.map({type: "reset"})
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
-      Actions.pop({ popNum: this.props.nav_counter });
+      if (this.props.nav_counter > 1) {
+        Actions.pop({ popNum: this.props.nav_counter });
+      } else {
+        Actions.pop();
+      }
       this.props.resetCounter();
     } else if (key === 'signup') {
       Actions.signup();
