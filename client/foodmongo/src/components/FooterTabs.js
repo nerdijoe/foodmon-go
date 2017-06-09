@@ -21,6 +21,10 @@ class FooterTabs extends Component {
             Actions.signin();
           }
         });
+    } else if (key === 'interests') {
+      Actions.interests();
+    } else if (key === 'signin') {
+      Actions.signin();
     } else {
       Actions.map();
     }
@@ -34,9 +38,9 @@ class FooterTabs extends Component {
             <Icon active name="navigate" />
             <Text>Explore</Text>
           </Button>
-          <Button vertical>
+          <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
             <Icon name="apps" />
-            <Text>Apps</Text>
+            <Text>Interests</Text>
           </Button>
           <Button vertical>
             <Icon name="camera" />
