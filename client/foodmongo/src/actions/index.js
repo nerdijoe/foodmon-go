@@ -32,13 +32,9 @@ export const signin = (data) => {
         buttonText: 'Okay',
         type: 'warning',
       });
-
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-});
+  }
+};
 
 export const fetch_login = data => {
 	return dispatch => {
@@ -122,4 +118,3 @@ export const resetCounter = () => {
     type: RESET_COUNTER,
   };
 };
-

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { AsyncStorage } from 'react-native';
 import { Container, Text, Content, Item, Input, Label, Button, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { signin } from '../actions';
-
+import { signin, addCounter } from '../actions';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -24,6 +23,7 @@ class SignIn extends React.Component {
               console.log('signin', result)
               if(result == '') {
                 Actions.signin()
+                this.props.addCounter();
               } else {
                 Toast.show({
                   text: 'Login Successfully !',
@@ -32,12 +32,13 @@ class SignIn extends React.Component {
                   type: 'success',
                 });
                 Actions.profile()
+                this.props.addCounter();
               }
             });
           });
         });
       });
-    } 
+    }
 
   }
 
@@ -47,6 +48,7 @@ class SignIn extends React.Component {
 
   onSignUp() {
     Actions.signup()
+    this.props.addCounter();
   }
 
   render() {
@@ -81,6 +83,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   signin: (data) => dispatch(signin(data)),
+  addCounter: () => { dispatch(addCounter()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

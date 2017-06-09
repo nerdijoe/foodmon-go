@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage, Text, Button, View } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { reset_login } from '../actions';
+import { reset_login, addCounter } from '../actions';
 
 class Profile extends React.Component {
 
@@ -10,6 +10,7 @@ class Profile extends React.Component {
     let keys = ['Token', 'Username', '_id'];
     AsyncStorage.multiRemove(keys, (err) => {
       Actions.signin();
+      this.props.addCounter();
       this.props.reset_login()
       console.log('profile', this.props.username)
     });
@@ -31,5 +32,6 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   reset_login: () => dispatch(reset_login()),
+  addCounter: () => { dispatch(addCounter()); },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
