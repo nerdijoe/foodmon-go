@@ -11,9 +11,9 @@ import {
   Header,
   Body,
   Title,
-  Left,
-  Right,
 } from 'native-base';
+import { connect } from 'react-redux';
+import { actionSignUp } from '../actions';
 
 const styles = {
   container: {
@@ -32,8 +32,8 @@ const styles = {
   },
   myButton: {
     padding: 10,
-  }
-}
+  },
+};
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -49,7 +49,8 @@ class SignUp extends React.Component {
   handleSignUp() {
     console.log("signup");
     console.log(this.state);
-
+    
+    this.props.signUp(this.state);
     // call reducer action for signup
   }
 
@@ -68,23 +69,23 @@ class SignUp extends React.Component {
           </Body>
         </Header>
 
-        <Content contentContainerStyle={{justifyContent: 'center'}}>
+        <Content contentContainerStyle={{ justifyContent: 'center' }} >
           <Form style={styles.myForm}>
             <Item floatingLabel>
               <Label>Name</Label>
-              <Input value={this.state.name} onChangeText={(text) => {this.handleChangeInput('name', text); }} />
+              <Input value={this.state.name} onChangeText={(text) => { this.handleChangeInput('name', text); }} />
             </Item>
             <Item floatingLabel>
               <Label>Email</Label>
-              <Input value={this.state.email} onChangeText={(text) => {this.handleChangeInput('email', text); }} />
+              <Input value={this.state.email} onChangeText={(text) => { this.handleChangeInput('email', text); }} />
             </Item>
             <Item floatingLabel>
               <Label>Username</Label>
-              <Input value={this.state.username} onChangeText={(text) => {this.handleChangeInput('username', text); }} />
+              <Input value={this.state.username} onChangeText={(text) => { this.handleChangeInput('username', text); }} />
             </Item>
             <Item floatingLabel last>
               <Label>Password</Label>
-              <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => {this.handleChangeInput('password', text); }} />
+              <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => { this.handleChangeInput('password', text); }} />
             </Item>
 
           </Form>
@@ -97,4 +98,11 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (data) => { dispatch(actionSignUp(data)); },
+  };
+};
+
+const connectedSignUp = connect(null, mapDispatchToProps)(SignUp);
+export default connectedSignUp;
