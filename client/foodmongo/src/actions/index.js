@@ -1,9 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import {
-  SIGN_UP,
-  SIGN_IN,
-  UPDATE_USER_SUCCESS,
+  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, UPDATE_USER_SUCCESS,
 } from './constants';
 
 export const SignUp = data => ({
@@ -28,6 +26,14 @@ export const signin = data => ((dispatch) => {
   });
 });
 
+export const fetch_login = data => {
+	return dispatch => {
+    return dispatch({
+			type : FETCH_LOGIN,
+			data
+		})
+  }
+}
 
 export const actionSignUp = data => ((dispatch) => {
   axios.post('https://aafca6e0.ngrok.io/auth/signup', {
@@ -73,3 +79,22 @@ export const removeInterest = (interest, user) => ((dispatch) => {
     dispatch(updateUserSuccess(res.data));
   });
 });
+
+export const addCounter = () => {
+  return {
+    type: ADD_COUNTER,
+  };
+};
+
+export const subractCounter = () => {
+  return {
+    type: SUBTRACT_COUNTER,
+  };
+};
+
+export const resetCounter = () => {
+  return {
+    type: RESET_COUNTER,
+  };
+};
+
