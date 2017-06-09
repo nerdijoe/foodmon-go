@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 
 class FooterTabs extends Component {
 
@@ -14,13 +14,13 @@ class FooterTabs extends Component {
     } else if (key === 'signup') {
       Actions.signup();
     } else if (key === 'auth') {
-        AsyncStorage.getItem('Token', (err, result) => {
-          if(result) {
-            Actions.profile();
-          } else {
-            Actions.signin();
-          }
-        });
+      AsyncStorage.getItem('Token', (err, result) => {
+        if (result) {
+          Actions.profile();
+        } else {
+          Actions.signin();
+        }
+      });
     } else if (key === 'interests') {
       Actions.interests();
     } else if (key === 'signin') {

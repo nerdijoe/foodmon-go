@@ -1,5 +1,5 @@
 import {
-  SIGN_UP, SIGN_IN
+  SIGN_UP, SIGN_IN, UPDATE_USER_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
@@ -7,26 +7,26 @@ const initialState = {
   username: '',
   email: '',
   interestArr: [],
-  login : {
+  login: {
     _id: '',
-		username: '',
-		token: ''
-	}
+    username: '',
+    token: '',
+  },
 };
 
 const signin = (state, payload) => {
   console.log('data', payload.response.data)
-	let newData = {
-		username: payload.response.data.username,
-		token: payload.response.data.token,
+  const newData = {
+    username: payload.response.data.username,
+    token: payload.response.data.token,
     _id: payload.response.data._id,
-	}
-	let newState = {
-	 	...state,
-		login: { ...state.login, ...newData }
-  }
-	return newState
-}
+  };
+  const newState = {
+    ...state,
+    login: { ...state.login, ...newData },
+  };
+  return newState;
+};
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -42,6 +42,8 @@ const UserReducer = (state = initialState, action) => {
       return signin(state, action)
       break;
     }
+    case UPDATE_USER_SUCCESS:
+      return action.user;
     default: return state;
   }
 };
