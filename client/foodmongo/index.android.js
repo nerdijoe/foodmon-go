@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 
 import App from './src/App';
 
+//import store from './src/store';
 import store from './src/store/manageStore';
 
 export default class foodmongo extends Component {
