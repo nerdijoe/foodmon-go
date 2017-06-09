@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-
+import { AsyncStorage } from 'react-native'
 
 class FooterTabs extends Component {
 
@@ -13,6 +13,14 @@ class FooterTabs extends Component {
       Actions.pop();
     } else if (key === 'signup') {
       Actions.signup();
+    } else if (key === 'auth') {
+        AsyncStorage.getItem('Token', (err, result) => {
+          if(result) {
+            Actions.profile();
+          } else {
+            Actions.signin();
+          }
+        });
     } else if (key === 'interests') {
       Actions.interests();
     } else if (key === 'signin') {
@@ -38,7 +46,7 @@ class FooterTabs extends Component {
             <Icon name="camera" />
             <Text>Camera</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('signin'); }}>
+          <Button vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
             <Text>Sign Up</Text>
           </Button>

@@ -11,6 +11,7 @@ import Map from './components/Map';
 import FooterTabs from './components/FooterTabs';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import Profile from './components/Profile';
 import InterestsList from './components/InterestsList';
 
 const styles = StyleSheet.create({
@@ -40,6 +41,7 @@ export default class App extends Component {
           <Scene key="interests" component={InterestsList} title="Interests" />
           <Scene key="signup" component={SignUp} title="Sign Up" />
           <Scene key="signin" component={SignIn} title="Sign In" />
+          <Scene key="profile" component={Profile} title="Profile" />
         </Router>
 
         <FooterTabs />

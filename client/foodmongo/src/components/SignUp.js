@@ -47,9 +47,6 @@ class SignUp extends React.Component {
   }
 
   handleSignUp() {
-    console.log("signup");
-    console.log(this.state);
-    
     this.props.signUp(this.state);
     // call reducer action for signup
   }

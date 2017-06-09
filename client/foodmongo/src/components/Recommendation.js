@@ -3,7 +3,6 @@ import React from 'react';
 import { Content } from 'native-base';
 import { Image, Text } from 'react-native';
 
-
 const Recommendation = props => (
   <Content>
   <MapView.Marker
