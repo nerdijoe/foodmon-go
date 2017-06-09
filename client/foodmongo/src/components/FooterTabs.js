@@ -13,6 +13,8 @@ class FooterTabs extends Component {
       Actions.pop();
     } else if (key === 'signup') {
       Actions.signup();
+    } else if (key === 'interests') {
+      Actions.interests();
     } else if (key === 'signin') {
       Actions.signin();
     } else {
@@ -28,9 +30,9 @@ class FooterTabs extends Component {
             <Icon active name="navigate" />
             <Text>Explore</Text>
           </Button>
-          <Button vertical>
+          <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
             <Icon name="apps" />
-            <Text>Apps</Text>
+            <Text>Interests</Text>
           </Button>
           <Button vertical>
             <Icon name="camera" />

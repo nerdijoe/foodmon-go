@@ -2,10 +2,9 @@ import MapView from 'react-native-maps';
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,
 } from 'react-native';
 import axios from 'axios';
-import { Container, Content } from 'native-base';
+import { Container } from 'native-base';
 
 import Recommendation from './Recommendation';
 import navigation from '../assets/map/navigation.png';
@@ -48,7 +47,7 @@ export default class Map extends Component {
 
   componentWillMount() {
     navigator.geolocation.watchPosition((position) => {
-      let region = {
+      const region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
         latitudeDelta: 0.00922 * 1.5,
@@ -57,6 +56,7 @@ export default class Map extends Component {
       this.onRegionChange(region, position.coords.accuracy);
       this.setState({
         markers: [{
+          id: 1,
           latlng: {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -89,16 +89,14 @@ export default class Map extends Component {
 
   render() {
     return (
-
-      <View style={styles.container}>
-
+      <Container style={styles.container}>
         <MapView.Animated
           style={styles.map}
           region={this.state.region}
-          onRegionChange={this.onRegionChange.bind(this)}
         >
           {this.state.markers.map(marker => (
             <MapView.Marker
+              key={marker.id}
               coordinate={marker.latlng}
               title={marker.title}
               description={marker.description}
@@ -106,19 +104,13 @@ export default class Map extends Component {
             />
           ))}
           {this.state.restaurants.map(restaurant => (
-            <Container>
-              <Content>
-                <Recommendation
-                  key={restaurant.restaurant.name}
-                  restaurant={restaurant.restaurant}
-                />
-              </Content>
-            </Container>
+            <Recommendation
+              key={restaurant.restaurant.id}
+              restaurant={restaurant.restaurant}
+            />
           ))}
         </MapView.Animated>
-
-      </View>
-
+      </Container>
     );
   }
 }
