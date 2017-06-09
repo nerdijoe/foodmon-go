@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet, AsyncStorage } from 'react-native';
 
 const styles = StyleSheet.create({
   backdropView: {

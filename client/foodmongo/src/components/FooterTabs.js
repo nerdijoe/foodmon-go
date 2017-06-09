@@ -23,6 +23,7 @@ class FooterTabs extends Component {
       Actions.signup();
     } else if (key === 'auth') {
       console.log('nav_counter=', this.props.nav_counter);
+
       AsyncStorage.getItem('Token', (err, result) => {
         if (result) {
           Actions.profile();
