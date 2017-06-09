@@ -10,6 +10,7 @@ import { Router, Scene } from 'react-native-router-flux';
 import Map from './components/Map';
 import FooterTabs from './components/FooterTabs';
 import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 import InterestsList from './components/InterestsList';
 
 const styles = StyleSheet.create({
@@ -38,6 +39,7 @@ export default class App extends Component {
           <Scene key="map" component={Map} title="Map" hideNavBar={true} initial={true} />
           <Scene key="interests" component={InterestsList} title="Interests" />
           <Scene key="signup" component={SignUp} title="Sign Up" />
+          <Scene key="signin" component={SignIn} title="Sign In" />
         </Router>
 
         <FooterTabs />
