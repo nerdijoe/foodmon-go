@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  SIGN_UP, SIGN_IN, FETCH_LOGIN
+  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN,
 } from './constants';
 
 export const SignUp = (data) => {
@@ -71,5 +71,23 @@ export const actionSignUp = (data) => {
     // .catch((err) => {
     //   return err;
     // })
+  };
+};
+
+export const addCounter = () => {
+  return {
+    type: ADD_COUNTER,
+  };
+};
+
+export const subractCounter = () => {
+  return {
+    type: SUBTRACT_COUNTER,
+  };
+};
+
+export const resetCounter = () => {
+  return {
+    type: RESET_COUNTER,
   };
 };
