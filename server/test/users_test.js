@@ -78,7 +78,7 @@ describe('User', () => {
     .get(`/users/${user_id}`)
     .set('token', token)
     .end( (err, result) => {
-      console.log("*** get users/id", result.body)
+      // console.log("*** get users/id", result.body)
 
       result.should.have.status(200)
       result.should.be.an('object')
@@ -116,7 +116,7 @@ describe('User', () => {
       password: hashedpassword
     })
     .end( (err, result) => {
-      console.log("*** edit user", result.body)
+      // console.log("*** edit user", result.body)
       result.should.have.status(200)
       result.should.be.an('object')
       result.body.should.be.an('object')
@@ -141,7 +141,7 @@ describe('User', () => {
     .del(`/users/${user_id}`)
     .set('token', token)
     .end( (err, result) => {
-      console.log("*** del user", result.body)
+      // console.log("*** del user", result.body)
       result.should.have.status(200)
       result.should.be.an('object')
       result.body.should.be.an('object')
@@ -161,7 +161,7 @@ describe('User', () => {
       .get(`/users`)
       .set('token', token)
       .end( (err, result) => {
-        console.log("*** check users array length", result.body);
+        // console.log("*** check users array length", result.body);
         result.should.have.status(200)
         result.body.should.be.an('array')
         result.body.length.should.equal(0)

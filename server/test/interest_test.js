@@ -39,7 +39,8 @@ describe('Interest', () => {
         token = result.body.token
 
         newInterest = Interest({
-          name: "Japanese"
+          cuisine_name: "Japanese",
+          cuisine_id: "1",
         })
         newInterest.save( (err, interest) => {
           newInterest_id = interest._id
@@ -71,9 +72,11 @@ describe('Interest', () => {
       result.should.be.an('object')
       result.body.should.be.an('array')
 
-      result.body[0].should.have.property('name')
+      result.body[0].should.have.property('cuisine_name')
+      result.body[0].should.have.property('cuisine_id')
 
-      result.body[0].name.should.equal('Japanese')
+      result.body[0].cuisine_name.should.equal('Japanese')
+      result.body[0].cuisine_id.should.equal('1')
 
       done()
     })
@@ -89,9 +92,11 @@ describe('Interest', () => {
       result.should.be.an('object')
       result.body.should.be.an('object')
 
-      result.body.should.have.property('name')
+      result.body.should.have.property('cuisine_name')
+      result.body.should.have.property('cuisine_id')
 
-      result.body.name.should.equal('Japanese')
+      result.body.cuisine_name.should.equal('Japanese')
+      result.body.cuisine_id.should.equal('1')
 
       done()
     })
@@ -103,16 +108,20 @@ describe('Interest', () => {
     .post(`/interest`)
     .set('token', token)
     .send({
-      name: 'Western'
+      cuisine_name: 'Western',
+      cuisine_id: "2",
     })
     .end( (err, result) => {
-      console.log("*** insert one interest", result.body)
+      // console.log("*** insert one interest", result.body)
       result.should.have.status(200)
       result.should.be.an('object')
 
-      result.body.should.have.property('name')
+      result.body.should.have.property('cuisine_name')
+      result.body.should.have.property('cuisine_id')
 
-      result.body.name.should.equal('Western')
+      result.body.cuisine_name.should.equal('Western')
+      result.body.cuisine_id.should.equal('2')
+
       done()
     })
   });
@@ -123,16 +132,18 @@ describe('Interest', () => {
     .put(`/interest/${newInterest_id}`)
     .set('token', token)
     .send({
-      name: 'Indonesian'
+      cuisine_name: 'Indonesian'
     })
     .end( (err, result) => {
-      console.log("*** edit one interest", result.body)
+      // console.log("*** edit one interest", result.body)
       result.should.have.status(200)
       result.should.be.an('object')
 
-      result.body.should.have.property('name')
+      result.body.should.have.property('cuisine_name')
+      result.body.should.have.property('cuisine_id')
 
-      result.body.name.should.equal('Indonesian')
+      result.body.cuisine_name.should.equal('Indonesian')
+      result.body.cuisine_id.should.equal('1')
 
       done()
     })
@@ -144,14 +155,14 @@ describe('Interest', () => {
     .del(`/interest/${newInterest_id}`)
     .set('token', token)
     .end( (err, result) => {
-      console.log("*** edit one interest", result.body)
+      // console.log("*** edit one interest", result.body)
       result.should.have.status(200)
       result.should.be.an('object')
 
       chai.request(server)
       .get('/interest')
       .end( (err, result) => {
-        console.log('*** check total interest', result.body);
+        // console.log('*** check total interest', result.body);
         result.should.have.status(200)
         result.body.should.be.an('array')
 

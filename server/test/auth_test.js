@@ -8,32 +8,6 @@ var server = require('../server');
 var User = require('../models/users');
 let passwordHash = require('password-hash');
 
-/*
-name : {
-  type: String,
-  required: true
-},
-email : {
-  type: String,
-  required: true,
-  unique: true
-},
-username : {
-  type: String,
-  required: true,
-  unique: true
-},
-password : {
-  type: String,
-  required: true,
-  unique: true
-},
-interestArr: [{
-  type: Schema.Types.ObjectId,
-  ref: 'Interest'
-
-*/
-
 describe('Auth', () => {
 
   beforeEach( (done) => {
