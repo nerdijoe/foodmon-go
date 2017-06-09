@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signin } from '../actions';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
 import { Container, Text, Content, Item, Input, Label, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { signin } from '../actions';
+
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class SignIn extends React.Component {
   }
 
   onSignUp() {
-    Actions.signup();
+    Actions.signup()
   }
 
   render() {
