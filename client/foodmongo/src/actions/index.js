@@ -1,15 +1,15 @@
+import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import {
-  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, RESET_LOGIN
+  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, UPDATE_USER_SUCCESS, RESET_LOGIN,
 } from './constants';
 import { Toast } from 'native-base';
 
-export const SignUp = (data) => {
-  return {
-    type: SIGN_UP,
-    data,
-  };
-};
+export const SignUp = data => ({
+  type: SIGN_UP,
+  data,
+});
+
 
 export const signin = (data) => {
 	return dispatch => {
@@ -32,9 +32,13 @@ export const signin = (data) => {
         buttonText: 'Okay',
         type: 'warning',
       });
+
     });
-  }
-}
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
 
 export const fetch_login = data => {
 	return dispatch => {
@@ -55,41 +59,51 @@ export const reset_login = () => {
   }
 }
 
-export const actionSignUp = (data) => {
-  return (dispatch) => {
-    axios.post('https://aafca6e0.ngrok.io/auth/signup', {
-      name: data.name,
-      email: data.email,
-      username: data.username,
-      password: data.password,
-    })
-    .then((res) => {
-      console.log('actionSignUp', res);
-      dispatch(SignUp(data));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+export const actionSignUp = data => ((dispatch) => {
+  axios.post('https://aafca6e0.ngrok.io/auth/signup', {
+    name: data.name,
+    email: data.email,
+    username: data.username,
+    password: data.password,
+  })
+  .then((res) => {
+    console.log('actionSignUp', res);
+    dispatch(SignUp(data));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
 
 
-    // fetch('https://aafca6e0.ngrok.io/auth/signup', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    // .then(res => res.json())
-    // .then((res) => {
-    //   console.log('actionSignUp', res);
-    //   dispatch(SignUp(data));
-    // })
-    // .catch((err) => {
-    //   return err;
-    // })
-  };
-};
+const updateUserSuccess = user => ({
+  type: UPDATE_USER_SUCCESS,
+  user,
+});
+
+export const addInterest = (interest, user) => ((dispatch) => {
+  axios.put(`https://aafca6e0.ngrok.io/users/${user._id}`, {
+    interestArr: [],
+  }, {
+    headers: {
+      token: AsyncStorage.getItem('Token'),
+    },
+  }).then((res) => {
+    dispatch(updateUserSuccess(res.data));
+  });
+});
+
+export const removeInterest = (interest, user) => ((dispatch) => {
+  axios.put(`https://aafca6e0.ngrok.io/users/${user._id}`, {
+    interestArr: [],
+  }, {
+    headers: {
+      token: AsyncStorage.getItem('Token'),
+    },
+  }).then((res) => {
+    dispatch(updateUserSuccess(res.data));
+  });
+});
 
 export const addCounter = () => {
   return {
@@ -108,3 +122,4 @@ export const resetCounter = () => {
     type: RESET_COUNTER,
   };
 };
+
