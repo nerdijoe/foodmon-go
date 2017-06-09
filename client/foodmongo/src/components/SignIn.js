@@ -26,10 +26,12 @@ class SignIn extends React.Component {
   render() {
     if(this.props.userLogin.UserReducer.login.token){
       AsyncStorage.setItem('Token', JSON.stringify(this.props.userLogin.UserReducer.login.token), () => {
-    	  AsyncStorage.mergeItem('Token', JSON.stringify(this.props.userLogin.UserReducer.login.token), () => {
-    	    AsyncStorage.getItem('Token', (err, result) => {
-    	      console.log(result);
-    	    });
+    	  AsyncStorage.setItem('Username', JSON.stringify(this.props.userLogin.UserReducer.login.username), () => {
+          AsyncStorage.setItem('_id', JSON.stringify(this.props.userLogin.UserReducer.login._id), () => {
+      	    AsyncStorage.getItem('Token', (err, result) => {
+      	      console.log(result);
+      	    });
+          });
     	  });
     	});
     }

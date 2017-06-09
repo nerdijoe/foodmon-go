@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  SIGN_UP, SIGN_IN
+  SIGN_UP, SIGN_IN, FETCH_LOGIN
 } from './constants';
 
 export const SignUp = (data) => {
@@ -26,6 +26,15 @@ export const signin = data => {
     .catch((err) => {
       console.log(err);
     });
+  }
+}
+
+export const fetch_login = data => {
+	return dispatch => {
+    return dispatch({
+			type : FETCH_LOGIN,
+			data
+		})
   }
 }
 

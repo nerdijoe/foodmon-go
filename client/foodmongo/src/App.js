@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
+  StyleSheet, AsyncStorage,
 } from 'react-native';
 import {
   Container,
 } from 'native-base';
 import { Router, Scene } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import Map from './components/Map';
 import FooterTabs from './components/FooterTabs';
@@ -13,6 +15,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 import InterestsList from './components/InterestsList';
+import { fetch_login } from './actions';
 
 const styles = StyleSheet.create({
   map: {
@@ -29,11 +32,25 @@ const styles = StyleSheet.create({
 });
 
 
-export default class App extends Component {
+class App extends Component {
+  componentWillMount() {
+    if(this.props.username.UserReducer.login.token == ''){
+      AsyncStorage.getItem('Token', (err, token) => {
+        AsyncStorage.getItem('Username', (err, username) => {
+          AsyncStorage.getItem('_id', (err, _id) => {
+            this.props.fetch_login({ username: username, token: token, _id: _id})
+            console.log('app', this.props.username.UserReducer.login)
+          });
+        });
+      });
+    } else {
+      Actions.map()
+    }
+  }
 
   render() {
-    return (
 
+    return (
       <Container>
 
         <Router>
@@ -51,3 +68,13 @@ export default class App extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+	username: state
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetch_login: (data) => dispatch(fetch_login(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
