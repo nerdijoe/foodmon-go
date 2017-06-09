@@ -8,6 +8,7 @@ const initialState = {
   email: '',
   interestArr: [],
   login : {
+    _id: '',
 		username: '',
 		token: ''
 	}
@@ -17,7 +18,8 @@ const signin = (state, payload) => {
   console.log('data', payload.response.data)
 	let newData = {
 		username: payload.response.data.username,
-		token: payload.response.data.token
+		token: payload.response.data.token,
+    _id: payload.response.data._id,
 	}
 	let newState = {
 	 	...state,
