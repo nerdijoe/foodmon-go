@@ -11,6 +11,7 @@ import Map from './components/Map';
 import FooterTabs from './components/FooterTabs';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
+import Profile from './components/Profile';
 
 const styles = StyleSheet.create({
   map: {
@@ -44,6 +45,7 @@ export default class App extends Component {
           <Scene key="map" component={Map} title="Map" hideNavBar={true} initial={true} />
           <Scene key="signup" component={SignUp} title="Sign Up" />
           <Scene key="signin" component={SignIn} title="Sign In" />
+          <Scene key="profile" component={Profile} title="Profile" />
         </Router>
 
         <FooterTabs style={styles.footertabs} />

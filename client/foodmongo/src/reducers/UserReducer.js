@@ -1,5 +1,5 @@
 import {
-  SIGN_UP,
+  SIGN_UP, SIGN_IN
 } from '../actions/constants';
 
 const initialState = {
@@ -7,7 +7,24 @@ const initialState = {
   username: '',
   email: '',
   interestArr: [],
+  login : {
+		username: '',
+		token: ''
+	}
 };
+
+const signin = (state, payload) => {
+  console.log('data', payload.response.data)
+	let newData = {
+		username: payload.response.data.username,
+		token: payload.response.data.token
+	}
+	let newState = {
+	 	...state,
+		login: { ...state.login, ...newData }
+  }
+	return newState
+}
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,6 +35,10 @@ const UserReducer = (state = initialState, action) => {
         username: action.data.username,
         email: action.data.email,
       };
+    }
+    case SIGN_IN: {
+      return signin(state, action)
+      break;
     }
     default: return state;
   }

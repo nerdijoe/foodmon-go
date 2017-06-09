@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  SIGN_UP,
+  SIGN_UP, SIGN_IN
 } from './constants';
 
 export const SignUp = (data) => {
@@ -9,6 +9,25 @@ export const SignUp = (data) => {
     data,
   };
 };
+
+export const signin = data => {
+	return dispatch => {
+    axios.post('http://5d5e7777.ngrok.io/auth/signin', {
+      username: data.username,
+      password: data.password,
+    })
+    .then(response => {
+      console.log('response',response)
+      return dispatch({
+  			type : SIGN_IN,
+  			response
+  		})
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+}
 
 export const actionSignUp = (data) => {
   return (dispatch) => {
@@ -20,7 +39,6 @@ export const actionSignUp = (data) => {
     })
     .then((res) => {
       console.log('actionSignUp', res);
-
       dispatch(SignUp(data));
     })
     .catch((err) => {

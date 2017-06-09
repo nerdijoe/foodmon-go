@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signin } from '../actions/Action';
+import { signin } from '../actions';
 import { AsyncStorage } from 'react-native'
 import { Container, Text, Content, Item, Input, Label, Button } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -17,10 +18,14 @@ class SignIn extends React.Component {
     this.props.signin(this.state);
   }
 
+  onSignUp() {
+    Actions.signup();
+  }
+
   render() {
-    if(this.props.userLogin.login.username != ''){
-      AsyncStorage.setItem('Token', JSON.stringify(this.props.userLogin.login), () => {
-    	  AsyncStorage.mergeItem('Token', JSON.stringify(this.props.userLogin.login), () => {
+    if(this.props.userLogin.UserReducer.login.token){
+      AsyncStorage.setItem('Token', JSON.stringify(this.props.userLogin.UserReducer.login.token), () => {
+    	  AsyncStorage.mergeItem('Token', JSON.stringify(this.props.userLogin.UserReducer.login.token), () => {
     	    AsyncStorage.getItem('Token', (err, result) => {
     	      console.log(result);
     	    });
@@ -29,7 +34,7 @@ class SignIn extends React.Component {
     }
     // console.log('login',this.props.userLogin)
     return (
-      <Container style={{ backgroundColor: '#F0F0F0' }} >
+      <Container style={{ backgroundColor: '#F0F0F0', padding: 20 }} >
         <Content>
             <Item floatingLabel>
               <Label>Username</Label>
@@ -41,11 +46,12 @@ class SignIn extends React.Component {
               <Input onChangeText={(password) => this.setState({password})}
               value={this.state.password}/>
             </Item>
-            <Button
+            <Button style={{ padding: 20 }} rounded success
               onPress={() => this.onLogin()}
-              rounded success
             ><Text>Sign In</Text>
             </Button>
+
+            <Text style={{ paddingTop: 50, fontSize: 15, color: 'blue', }} onPress={() => this.onSignUp() }>Don't have account, Sign Up</Text>
         </Content>
       </Container>
     );

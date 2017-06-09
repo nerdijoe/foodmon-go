@@ -1,7 +1,7 @@
 import MapView from 'react-native-maps';
 import React from 'react';
 import { Content, Card, CardItem, Left, Right, Body } from 'native-base';
-import { View, Image, Text} from 'react-native';
+import { View, Image, Text } from 'react-native';
 
 
 const Recommendation = props => (
