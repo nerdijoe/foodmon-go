@@ -89,4 +89,5 @@ POST - http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signin
 
 Get one interest
 ```
-GET - http://foodmongo-dev.us-west-2.elasticbeanstalk.com/interest/:id```
+GET - http://foodmongo-dev.us-west-2.elasticbeanstalk.com/interest/:id
+```
