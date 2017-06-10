@@ -1,37 +1,35 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import * as actionType from './constants';
-
 import { Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+
+import * as actionType from './constants';
 
 export const SignUp = data => ({
   type: actionType.SIGN_UP,
   data,
 });
 
-export const signin = (data) => ((dispatch) => {
-    axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signin', {
-      username: data.username,
-      password: data.password,
-    })
-    .then(response => {
-      AsyncStorage.setItem('token', response.data.token, (err) => {
-        AsyncStorage.setItem('_id', response.data._id, (err) => {
-          Actions.profile();
+export const signin = data => ((dispatch) => {
+  axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signin', {
+    username: data.username,
+    password: data.password,
+  })
+  .then((response) => {
+    AsyncStorage.setItem('token', response.data.token, (err) => {
+      AsyncStorage.setItem('_id', response.data._id, (err) => {
+        Actions.profile();
 
-          dispatch({
-            type: actionType.ADD_COUNTER
-          })
-        })
-      })
-
-    })
-    .catch((err) => {
-      console.log(err);
+        dispatch({
+          type: actionType.ADD_COUNTER,
+        });
+      });
     });
-  }
-);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+});
 
 export const fetchUser = () => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
@@ -59,7 +57,7 @@ export const fetch_login = data => {
 			data
 		})
   }
-}
+};
 
 export const reset_login = () => {
 	return dispatch => {
