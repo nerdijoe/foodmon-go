@@ -1,5 +1,5 @@
 import {
-  SIGN_UP, SIGN_IN, FETCH_LOGIN, UPDATE_USER_SUCCESS, RESET_LOGIN, FETCH_USER_SUCCESS,
+  SIGN_UP, SIGN_IN, FETCH_LOGIN, RESET_LOGIN, FETCH_USER_SUCCESS, ADD_INTEREST_SUCCESS, REMOVE_INTEREST_SUCCESS,
 } from '../actions/constants';
 
 const initialState = {
@@ -67,8 +67,21 @@ const UserReducer = (state = initialState, action) => {
     case SIGN_IN: {
       return signin(state, action)
     }
-    case UPDATE_USER_SUCCESS: {
-      return action.user;
+    case ADD_INTEREST_SUCCESS: {
+      const updatedUser = {};
+      updatedUser.name = state.name;
+      updatedUser.username = state.username;
+      updatedUser.email = state.email;
+      updatedUser.interestArr = [...state.interestArr, action.interest];
+      return updatedUser;
+    }
+    case REMOVE_INTEREST_SUCCESS: {
+      const updatedUser = {};
+      updatedUser.name = state.name;
+      updatedUser.username = state.username;
+      updatedUser.email = state.email;
+      updatedUser.interestArr = [...state.interestArr.filter(interest=>interest._id!==action.interest._id)];
+      return updatedUser;
     }
     case FETCH_USER_SUCCESS: {
       const activeUser = {};
