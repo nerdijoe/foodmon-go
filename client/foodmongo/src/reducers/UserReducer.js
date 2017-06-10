@@ -1,6 +1,4 @@
-import {
-  SIGN_UP, SIGN_IN, FETCH_LOGIN, RESET_LOGIN, FETCH_USER_SUCCESS, ADD_INTEREST_SUCCESS, REMOVE_INTEREST_SUCCESS,
-} from '../actions/constants';
+import * as actionType from '../actions/constants';
 
 const initialState = {
   name: '',
@@ -29,34 +27,34 @@ const signin = (state, payload) => {
 };
 
 const fetch_login = (state, payload) => {
-	let newData = {
-		username: payload.data.username,
-		token: payload.data.token,
+  const newData = {
+    username: payload.data.username,
+    token: payload.data.token,
     _id: payload.data._id,
-	}
-	let newState = {
-	 	...state,
-		login: { ...state.login, ...newData }
-  }
-	return newState
-}
+  };
+  const newState = {
+    ...state,
+    login: { ...state.login, ...newData },
+  };
+  return newState;
+};
 
 const reset_login = (state, payload) => {
-	let newData = {
-		username: '',
-		token: '',
+  const newData = {
+    username: '',
+    token: '',
     _id: '',
-	}
-	let newState = {
-	 	...state,
-		login: { ...state.login, ...newData }
-  }
-	return newState
-}
+  };
+  const newState = {
+    ...state,
+    login: { ...state.login, ...newData },
+  };
+  return newState;
+};
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_UP: {
+    case actionType.SIGN_UP: {
       return {
         ...state,
         name: action.data.name,
@@ -64,10 +62,10 @@ const UserReducer = (state = initialState, action) => {
         email: action.data.email,
       };
     }
-    case SIGN_IN: {
-      return signin(state, action)
+    case actionType.SIGN_IN: {
+      return signin(state, action);
     }
-    case ADD_INTEREST_SUCCESS: {
+    case actionType.ADD_INTEREST_SUCCESS: {
       const updatedUser = {};
       updatedUser.name = state.name;
       updatedUser.username = state.username;
@@ -75,15 +73,17 @@ const UserReducer = (state = initialState, action) => {
       updatedUser.interestArr = [...state.interestArr, action.interest];
       return updatedUser;
     }
-    case REMOVE_INTEREST_SUCCESS: {
+    case actionType.REMOVE_INTEREST_SUCCESS: {
       const updatedUser = {};
       updatedUser.name = state.name;
       updatedUser.username = state.username;
       updatedUser.email = state.email;
-      updatedUser.interestArr = [...state.interestArr.filter(interest=>interest._id!==action.interest._id)];
+      updatedUser.interestArr = [
+        ...state.interestArr.filter(interest => interest._id !== action.interest._id)
+      ];
       return updatedUser;
     }
-    case FETCH_USER_SUCCESS: {
+    case actionType.FETCH_USER_SUCCESS: {
       const activeUser = {};
       activeUser.name = action.user.name;
       activeUser.username = action.user.username;
@@ -91,11 +91,11 @@ const UserReducer = (state = initialState, action) => {
       activeUser.interestArr = action.user.interestArr;
       return activeUser;
     }
-    case FETCH_LOGIN: {
-      return fetch_login(state, action)
+    case actionType.FETCH_LOGIN: {
+      return fetch_login(state, action);
     }
-    case RESET_LOGIN: {
-      return reset_login(state, action)
+    case actionType.RESET_LOGIN: {
+      return reset_login(state, action);
     }
 
     default: return state;
