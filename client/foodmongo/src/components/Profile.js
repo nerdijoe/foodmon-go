@@ -9,7 +9,7 @@ import { reset_login, addCounter, fetchUser } from '../actions';
 class Profile extends React.Component {
 
   onLogout() {
-    let keys = ['Token', 'Username', '_id'];
+    let keys = ['token', '_id'];
     AsyncStorage.multiRemove(keys, (err) => {
       Actions.signin();
       this.props.addCounter();

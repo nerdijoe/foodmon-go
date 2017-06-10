@@ -14,10 +14,9 @@ class SignIn extends React.Component {
     };
   }
 
-
   onLogin() {
     this.props.signin(this.state);
-    Actions.profile()
+    // Actions.profile()
   }
 
   onSignUp() {

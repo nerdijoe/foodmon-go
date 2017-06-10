@@ -48,8 +48,14 @@ class App extends Component {
   //   }
   // }
   componentDidMount() {
-    this.props.fetchUser()
-    this.props.fetchInterests();
+    AsyncStorage.getItem('token', (err1, token) => {
+      console.log('app.js componentDidMount', token)
+      if(token) {
+        this.props.fetchUser()
+        this.props.fetchInterests();
+      }
+    });
+
   }
 
 
