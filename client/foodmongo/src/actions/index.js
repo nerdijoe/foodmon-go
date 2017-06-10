@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import {
-  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, UPDATE_USER_SUCCESS, RESET_LOGIN, FETCH_USER_SUCCESS
+  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, RESET_LOGIN, FETCH_USER_SUCCESS, FETCH_INTERESTS_SUCCESS, ADD_INTEREST_SUCCESS, REMOVE_INTEREST_SUCCESS,
 } from './constants';
 import { Toast } from 'native-base';
 
@@ -13,7 +13,7 @@ export const SignUp = data => ({
 
 export const signin = (data) => {
 	return dispatch => {
-    axios.post('http://39ac0423.ngrok.io/auth/signin', {
+    axios.post('http://64befc9a.ngrok.io/auth/signin', {
       username: data.username,
       password: data.password,
     })
@@ -31,7 +31,7 @@ export const fetchUser = () => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
       console.log(id);
-      axios.get(`http://39ac0423.ngrok.io/users/${id}`, {
+      axios.get(`http://64befc9a.ngrok.io/users/${id}`, {
         headers: {
           token,
         },
@@ -66,7 +66,7 @@ export const reset_login = () => {
 }
 
 export const actionSignUp = data => ((dispatch) => {
-  axios.post('https://39ac0423.ngrok.io/auth/signup', {
+  axios.post('https://64befc9a.ngrok.io/auth/signup', {
     name: data.name,
     email: data.email,
     username: data.username,
@@ -81,33 +81,52 @@ export const actionSignUp = data => ((dispatch) => {
   });
 });
 
-
-const updateUserSuccess = user => ({
-  type: UPDATE_USER_SUCCESS,
-  user,
+export const fetchInterests = () => ((dispatch) => {
+  axios.get('https://64befc9a.ngrok.io/interest/')
+  .then((res) => {
+    dispatch({
+      type: FETCH_INTERESTS_SUCCESS,
+      interests: res.data,
+    });
+  });
 });
 
+
 export const addInterest = (interest, user) => ((dispatch) => {
-  axios.put(`https://39ac0423.ngrok.io/users/${user._id}`, {
-    interestArr: [],
-  }, {
-    headers: {
-      token: AsyncStorage.getItem('Token'),
-    },
-  }).then((res) => {
-    dispatch(updateUserSuccess(res.data));
+  AsyncStorage.getItem('token', (err1, token) => {
+    AsyncStorage.getItem('_id', (err2, id) => {
+      axios.put(`https://64befc9a.ngrok.io/users/${id}`, {
+        interestArr: [...user.interestArr, interest._id],
+      }, {
+        headers: {
+          token,
+        },
+      }).then((res) => {
+        dispatch({
+          type: ADD_INTEREST_SUCCESS,
+          interest,
+        });
+      });
+    });
   });
 });
 
 export const removeInterest = (interest, user) => ((dispatch) => {
-  axios.put(`https://39ac0423.ngrok.io/users/${user._id}`, {
-    interestArr: [],
-  }, {
-    headers: {
-      token: AsyncStorage.getItem('Token'),
-    },
-  }).then((res) => {
-    dispatch(updateUserSuccess(res.data));
+  AsyncStorage.getItem('token', (err1, token) => {
+    AsyncStorage.getItem('_id', (err2, id) => {
+      axios.put(`https://64befc9a.ngrok.io/users/${id}`, {
+        interestArr: [...user.interestArr.filter(userInterest => userInterest._id !== interest._id)],
+      }, {
+        headers: {
+          token,
+        },
+      }).then((res) => {
+        dispatch({
+          type: REMOVE_INTEREST_SUCCESS,
+          interest,
+        });
+      });
+    });
   });
 });
 

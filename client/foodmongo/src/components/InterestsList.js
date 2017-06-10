@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ListView } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
 import InterestItem from './InterestItem';
+import { fetchInterests } from '../actions';
 
 const styles = StyleSheet.create({
   backdrop: {
@@ -16,20 +17,10 @@ class InterestsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cuisines: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      cuisines: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }).cloneWithRows(this.props.interests),
     };
-  }
-
-  componentWillMount() {
-    axios.get('https://developers.zomato.com/api/v2.1/cuisines?city_id=74', {
-      headers: {
-        user_key: '2b958b1e249a2a26c68081cafe451194',
-      },
-    }).then((res) => {
-      this.setState({
-        cuisines: this.state.cuisines.cloneWithRows(res.data.cuisines),
-      });
-    });
   }
 
   render() {
@@ -38,8 +29,9 @@ class InterestsList extends Component {
         <ListView
           contentContainerStyle={styles.backdrop}
           dataSource={this.state.cuisines}
-          renderRow={data => (
-            <InterestItem cuisine_name={data.cuisine.cuisine_name} />
+          pageSize={20}
+          renderRow={cuisine => (
+            <InterestItem cuisine={cuisine} />
           )}
         />
       </View>
@@ -47,4 +39,8 @@ class InterestsList extends Component {
   }
 }
 
-export default InterestsList;
+const mapStateToProps = state => ({
+  interests: state.interests,
+});
+
+export default connect(mapStateToProps)(InterestsList);

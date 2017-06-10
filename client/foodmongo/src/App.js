@@ -15,7 +15,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 import InterestsList from './components/InterestsList';
-import { fetch_login } from './actions';
+import { fetch_login, fetchUser, fetchInterests } from './actions';
 
 const styles = StyleSheet.create({
   map: {
@@ -47,6 +47,10 @@ class App extends Component {
   //     Actions.map()
   //   }
   // }
+  componentDidMount() {
+    this.props.fetchUser()
+    this.props.fetchInterests();
+  }
 
 
   render() {
@@ -71,11 +75,13 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-	username: state
+	state: state,
 })
 
 const mapDispatchToProps = dispatch => ({
   fetch_login: (data) => dispatch(fetch_login(data)),
+  fetchUser: () => dispatch(fetchUser()),
+  fetchInterests: () => dispatch(fetchInterests()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
