@@ -24,12 +24,13 @@ class FooterTabs extends Component {
     } else if (key === 'auth') {
       console.log('nav_counter=', this.props.nav_counter);
 
-      AsyncStorage.getItem('Token', (err, result) => {
+      AsyncStorage.getItem('token', (err, result) => {
         if (result) {
           Actions.profile();
         } else {
           Actions.signin();
         }
+        // Actions.signin();
       });
       this.props.addCounter();
     } else if (key === 'interests') {

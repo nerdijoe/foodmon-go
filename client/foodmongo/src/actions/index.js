@@ -4,6 +4,7 @@ import {
   SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, RESET_LOGIN, FETCH_USER_SUCCESS, FETCH_INTERESTS_SUCCESS, ADD_INTEREST_SUCCESS, REMOVE_INTEREST_SUCCESS,
 } from './constants';
 import { Toast } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 export const SignUp = data => ({
   type: SIGN_UP,
@@ -11,27 +12,30 @@ export const SignUp = data => ({
 });
 
 
-export const signin = (data) => {
-	return dispatch => {
-    axios.post('http://64befc9a.ngrok.io/auth/signin', {
+export const signin = (data) => ((dispatch) => {
+    axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signin', {
       username: data.username,
       password: data.password,
     })
     .then(response => {
-      AsyncStorage.setItem('token', response.data.token)
-      AsyncStorage.setItem('_id', response.data._id)
+      AsyncStorage.setItem('token', response.data.token, (err) => {
+        AsyncStorage.setItem('_id', response.data._id, (err) => {
+          Actions.profile();
+        })
+      })
+
     })
     .catch((err) => {
       console.log(err);
     });
   }
-};
+);
 
 export const fetchUser = () => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
-      console.log(id);
-      axios.get(`http://64befc9a.ngrok.io/users/${id}`, {
+      console.log('actions fetchUser', token);
+      axios.get(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`, {
         headers: {
           token,
         },
@@ -66,7 +70,7 @@ export const reset_login = () => {
 }
 
 export const actionSignUp = data => ((dispatch) => {
-  axios.post('https://64befc9a.ngrok.io/auth/signup', {
+  axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signup', {
     name: data.name,
     email: data.email,
     username: data.username,
@@ -82,7 +86,7 @@ export const actionSignUp = data => ((dispatch) => {
 });
 
 export const fetchInterests = () => ((dispatch) => {
-  axios.get('https://64befc9a.ngrok.io/interest/')
+  axios.get('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/interest/')
   .then((res) => {
     dispatch({
       type: FETCH_INTERESTS_SUCCESS,
@@ -95,7 +99,7 @@ export const fetchInterests = () => ((dispatch) => {
 export const addInterest = (interest, user) => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
-      axios.put(`https://64befc9a.ngrok.io/users/${id}`, {
+      axios.put(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`, {
         interestArr: [...user.interestArr, interest._id],
       }, {
         headers: {
@@ -114,7 +118,7 @@ export const addInterest = (interest, user) => ((dispatch) => {
 export const removeInterest = (interest, user) => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
-      axios.put(`https://64befc9a.ngrok.io/users/${id}`, {
+      axios.put(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`, {
         interestArr: [...user.interestArr.filter(userInterest => userInterest._id !== interest._id)],
       }, {
         headers: {
