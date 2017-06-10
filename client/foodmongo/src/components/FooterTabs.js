@@ -6,11 +6,20 @@ import { connect } from 'react-redux';
 
 import { addCounter, subtractCounter, resetCounter } from '../actions'
 
+
 class FooterTabs extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'map',
+    };
+  }
 
   onPressHandler = (key) => {
     console.log(`onPress ${key}`)
     // Actions.map({type: "reset"})
+    this.setState({ selectedTab: key })
+
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
       if (this.props.nav_counter > 1) {
@@ -45,20 +54,20 @@ class FooterTabs extends Component {
   render() {
     return (
       <Footer >
-        <FooterTab>
-          <Button active vertical onPress={() => { this.onPressHandler('map'); }}>
+        <FooterTab style={{backgroundColor: '#ff5f2e'}} tabActiveBgColor="#fcbe32" >
+          <Button active={this.state.selectedTab === 'map'} vertical onPress={() => { this.onPressHandler('map'); }}>
             <Icon active name="navigate" />
             <Text>Explore</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
-            <Icon name="apps" />
-            <Text>Interests</Text>
+          <Button active={this.state.selectedTab === 'interests'} vertical onPress={() => { this.onPressHandler('interests'); }}>
+            <Icon name="apps" style={styles.iconText} />
+            <Text style={{ color: '#FFFFF2' }}>Interests</Text>
           </Button>
           <Button vertical>
             <Icon name="camera" />
-            <Text>Camera</Text>
+            <Text>something</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('auth'); }}>
+          <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
             <Text>Sign Up</Text>
           </Button>
@@ -66,6 +75,12 @@ class FooterTabs extends Component {
       </Footer>
     );
   }
+}
+
+const styles = {
+  iconText: {
+    color: '#FFFFF2',
+  },
 }
 
 const mapStateToProps = (state) => {
