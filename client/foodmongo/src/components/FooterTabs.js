@@ -24,13 +24,9 @@ class FooterTabs extends Component {
     } else if (key === 'auth') {
       console.log('nav_counter=', this.props.nav_counter);
 
-      AsyncStorage.getItem('Token', (err, result) => {
-        if (result) {
-          Actions.profile();
-        } else {
+
           Actions.signin();
-        }
-      });
+
       this.props.addCounter();
     } else if (key === 'interests') {
       this.props.addCounter();
@@ -42,29 +38,47 @@ class FooterTabs extends Component {
     }
   }
 
+  handleProfile() {
+    AsyncStorage.getItem('token', (err, res) => {
+      if (res) {
+        return (
+          <Footer >
+            <FooterTab>
+              <Button active vertical onPress={() => { this.onPressHandler('map'); }}>
+                <Icon active name="navigate" />
+                <Text>Explore</Text>
+              </Button>
+              <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
+                <Icon name="apps" />
+                <Text>Interests</Text>
+              </Button>
+              <Button>
+                <Icon name="person" />
+                <Text>Profile</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        );
+      }else{
+        return (<Footer >
+          <FooterTab>
+            <Button active vertical onPress={() => { this.onPressHandler('map'); }}>
+              <Icon active name="navigate" />
+              <Text>Explore</Text>
+            </Button>
+            <Button vertical onPress={() => { this.onPressHandler('auth'); }}>
+              <Icon name="person" />
+              <Text>Sign In</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+        );
+      }
+    });
+
+  }
   render() {
-    return (
-      <Footer >
-        <FooterTab>
-          <Button active vertical onPress={() => { this.onPressHandler('map'); }}>
-            <Icon active name="navigate" />
-            <Text>Explore</Text>
-          </Button>
-          <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
-            <Icon name="apps" />
-            <Text>Interests</Text>
-          </Button>
-          <Button vertical>
-            <Icon name="camera" />
-            <Text>Camera</Text>
-          </Button>
-          <Button vertical onPress={() => { this.onPressHandler('auth'); }}>
-            <Icon name="person" />
-            <Text>Sign Up</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
-    );
+    return this.handleProfile();
   }
 }
 

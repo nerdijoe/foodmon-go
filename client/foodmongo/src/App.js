@@ -50,7 +50,9 @@ class App extends Component {
 
 
   render() {
-
+    AsyncStorage.getItem('Token', (err, result) => {
+      console.log(result);
+    })
     return (
       <Container>
 

@@ -13,7 +13,7 @@ export const SignUp = data => ({
 
 export const signin = (data) => {
 	return dispatch => {
-    axios.post('http://39ac0423.ngrok.io/auth/signin', {
+    axios.post('http://4ad48792.ngrok.io/auth/signin', {
       username: data.username,
       password: data.password,
     })
@@ -30,8 +30,9 @@ export const signin = (data) => {
 export const fetchUser = () => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
+      console.log(token);
       console.log(id);
-      axios.get(`http://39ac0423.ngrok.io/users/${id}`, {
+      axios.get(`http://4ad48792.ngrok.io/users/${id}`, {
         headers: {
           token,
         },
@@ -66,7 +67,7 @@ export const reset_login = () => {
 }
 
 export const actionSignUp = data => ((dispatch) => {
-  axios.post('https://39ac0423.ngrok.io/auth/signup', {
+  axios.post('http://4ad48792.ngrok.io/auth/signup', {
     name: data.name,
     email: data.email,
     username: data.username,
@@ -88,7 +89,7 @@ const updateUserSuccess = user => ({
 });
 
 export const addInterest = (interest, user) => ((dispatch) => {
-  axios.put(`https://39ac0423.ngrok.io/users/${user._id}`, {
+  axios.put(`http://4ad48792.ngrok.io/users/${user._id}`, {
     interestArr: [],
   }, {
     headers: {
@@ -100,7 +101,7 @@ export const addInterest = (interest, user) => ((dispatch) => {
 });
 
 export const removeInterest = (interest, user) => ((dispatch) => {
-  axios.put(`https://39ac0423.ngrok.io/users/${user._id}`, {
+  axios.put(`http://4ad48792.ngrok.io/users/${user._id}`, {
     interestArr: [],
   }, {
     headers: {
