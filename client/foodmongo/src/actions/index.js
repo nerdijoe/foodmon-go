@@ -1,16 +1,14 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import {
-  SIGN_UP, SIGN_IN, ADD_COUNTER, SUBTRACT_COUNTER, RESET_COUNTER, FETCH_LOGIN, RESET_LOGIN, FETCH_USER_SUCCESS, FETCH_INTERESTS_SUCCESS, ADD_INTEREST_SUCCESS, REMOVE_INTEREST_SUCCESS,
-} from './constants';
+import * as actionType from './constants';
+
 import { Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
 export const SignUp = data => ({
-  type: SIGN_UP,
+  type: actionType.SIGN_UP,
   data,
 });
-
 
 export const signin = (data) => ((dispatch) => {
     axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signin', {
@@ -21,6 +19,10 @@ export const signin = (data) => ((dispatch) => {
       AsyncStorage.setItem('token', response.data.token, (err) => {
         AsyncStorage.setItem('_id', response.data._id, (err) => {
           Actions.profile();
+
+          dispatch({
+            type: actionType.ADD_COUNTER
+          })
         })
       })
 
@@ -42,7 +44,7 @@ export const fetchUser = () => ((dispatch) => {
       })
       .then((res) => {
         dispatch({
-          type: FETCH_USER_SUCCESS,
+          type: actionType.FETCH_USER_SUCCESS,
           user: res.data,
         });
       });
@@ -53,7 +55,7 @@ export const fetchUser = () => ((dispatch) => {
 export const fetch_login = data => {
 	return dispatch => {
     return dispatch({
-			type : FETCH_LOGIN,
+			type : actionType.FETCH_LOGIN,
 			data
 		})
   }
@@ -63,7 +65,7 @@ export const reset_login = () => {
 	return dispatch => {
     let data = true;
     return dispatch({
-			type : RESET_LOGIN,
+			type : actionType.RESET_LOGIN,
 			data
 		})
   }
@@ -89,7 +91,7 @@ export const fetchInterests = () => ((dispatch) => {
   axios.get('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/interest/')
   .then((res) => {
     dispatch({
-      type: FETCH_INTERESTS_SUCCESS,
+      type: actionType.FETCH_INTERESTS_SUCCESS,
       interests: res.data,
     });
   });
@@ -107,7 +109,7 @@ export const addInterest = (interest, user) => ((dispatch) => {
         },
       }).then((res) => {
         dispatch({
-          type: ADD_INTEREST_SUCCESS,
+          type: actionType.ADD_INTEREST_SUCCESS,
           interest,
         });
       });
@@ -126,7 +128,7 @@ export const removeInterest = (interest, user) => ((dispatch) => {
         },
       }).then((res) => {
         dispatch({
-          type: REMOVE_INTEREST_SUCCESS,
+          type: actionType.REMOVE_INTEREST_SUCCESS,
           interest,
         });
       });
@@ -136,18 +138,18 @@ export const removeInterest = (interest, user) => ((dispatch) => {
 
 export const addCounter = () => {
   return {
-    type: ADD_COUNTER,
+    type: actionType.ADD_COUNTER,
   };
 };
 
 export const subractCounter = () => {
   return {
-    type: SUBTRACT_COUNTER,
+    type: actionType.SUBTRACT_COUNTER,
   };
 };
 
 export const resetCounter = () => {
   return {
-    type: RESET_COUNTER,
+    type: actionType.RESET_COUNTER,
   };
 };

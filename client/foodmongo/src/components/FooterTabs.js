@@ -32,6 +32,7 @@ class FooterTabs extends Component {
         }
         // Actions.signin();
       });
+      console.log('*** FooterTab Actions.currentRouter.currentRoute=', Actions)
       this.props.addCounter();
     } else if (key === 'interests') {
       this.props.addCounter();
