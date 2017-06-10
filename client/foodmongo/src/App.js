@@ -33,20 +33,20 @@ const styles = StyleSheet.create({
 
 
 class App extends Component {
-  componentWillMount() {
-    if(this.props.username.UserReducer.login.token == ''){
-      AsyncStorage.getItem('Token', (err, token) => {
-        AsyncStorage.getItem('Username', (err, username) => {
-          AsyncStorage.getItem('_id', (err, _id) => {
-            this.props.fetch_login({ username: username, token: token, _id: _id})
-            console.log('app', this.props.username.UserReducer.login)
-          });
-        });
-      });
-    } else {
-      Actions.map()
-    }
-  }
+  // componentWillMount() {
+  //   if(this.props.username.UserReducer.login.token == ''){
+  //     AsyncStorage.getItem('Token', (err, token) => {
+  //       AsyncStorage.getItem('Username', (err, username) => {
+  //         AsyncStorage.getItem('_id', (err, _id) => {
+  //           this.props.fetch_login({ username: username, token: token, _id: _id})
+  //           console.log('app', this.props.username.UserReducer.login)
+  //         });
+  //       });
+  //     });
+  //   } else {
+  //     Actions.map()
+  //   }
+  // }
 
 
   render() {

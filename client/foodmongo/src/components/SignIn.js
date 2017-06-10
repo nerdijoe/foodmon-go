@@ -14,36 +14,10 @@ class SignIn extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.userLogin.UserReducer.login.token != '') {
-      AsyncStorage.setItem('Token', JSON.stringify(this.props.userLogin.UserReducer.login.token), () => {
-        AsyncStorage.setItem('Username', JSON.stringify(this.props.userLogin.UserReducer.login.username), () => {
-          AsyncStorage.setItem('_id', JSON.stringify(this.props.userLogin.UserReducer.login._id), () => {
-            AsyncStorage.getItem('Token', (err, result) => {
-              console.log('signin', result)
-              if(result == '') {
-                Actions.signin()
-                this.props.addCounter();
-              } else {
-                Toast.show({
-                  text: 'Login Successfully !',
-                  position: 'bottom',
-                  buttonText: 'Okay',
-                  type: 'success',
-                });
-                Actions.profile()
-                this.props.addCounter();
-              }
-            });
-          });
-        });
-      });
-    }
-
-  }
 
   onLogin() {
     this.props.signin(this.state);
+    Actions.profile()
   }
 
   onSignUp() {
@@ -58,19 +32,17 @@ class SignIn extends React.Component {
         <Content>
             <Item floatingLabel>
               <Label>Username</Label>
-              <Input onChangeText={(username) => this.setState({username})}
-              value={this.state.username}/>
+              <Input onChangeText={username => this.setState({ username })} />
             </Item>
             <Item floatingLabel>
               <Label>Password</Label>
-              <Input onChangeText={(password) => this.setState({password})}
-              value={this.state.password}/>
+              <Input onChangeText={password => this.setState({ password })} />
             </Item>
             <Button style={{ padding: 20 }} rounded success
               onPress={() => this.onLogin()}
             ><Text>Sign In</Text>
             </Button>
-            <Text style={{ paddingTop: 50, fontSize: 15, color: 'blue', }} onPress={() => this.onSignUp() }>Don't have account, Sign Up</Text>
+            <Text style={{ paddingTop: 50, fontSize: 15, color: 'blue', }} onPress={() => this.onSignUp() }>Dont have an account? Sign Up</Text>
         </Content>
       </Container>
     );
