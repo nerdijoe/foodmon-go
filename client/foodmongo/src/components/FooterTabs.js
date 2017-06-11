@@ -14,6 +14,8 @@ class FooterTabs extends Component {
     };
   }
 
+
+
   onPressHandler = (key) => {
     console.log(`onPress ${key}`)
 
@@ -54,6 +56,17 @@ class FooterTabs extends Component {
     this.setState({ selectedTab: key });
   }
 
+  handleText = () => {
+    AsyncStorage.getItem('token', (err, result) => {
+      // if (result != null) {
+      //   <Text>Profile</Text>
+      // } else {
+      //   <Text>Sign In</Text>
+      // }
+      console.log('tokenn', result)
+    });
+  }
+
 
   render() {
     return (
@@ -73,7 +86,7 @@ class FooterTabs extends Component {
           </Button>
           <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
-            <Text>Sign In</Text>
+            {() => {this.handleText()}}
           </Button>
         </FooterTab>
       </Footer>
