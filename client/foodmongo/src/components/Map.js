@@ -110,70 +110,69 @@ export default class Map extends Component {
     });
   }
 
+  async getSpeech() {
+    try {
+      // More Locales will be available upon release.
+      const spokenText = await SpeechAndroid.startSpeech('Speak yo', SpeechAndroid.INDONESIAN);
+      ToastAndroid.show(spokenText, ToastAndroid.LONG);
+
+      // put logic here
+      const input = spokenText.match(/\d/);
+      console.log(`input=${input}`);
+
+      const number = input[0];
+      console.log(`number='${number}'`);
+
+      // format message
+      const restaurant = this.state.restaurants[number - 1].restaurant;
+      const message = `oke bos, mari kita memulai navigasi ke ${number}. ${restaurant.name}`;
+      console.log(`message='${message}'`);
+      SpeechNotification.speak({
+        message,
+        language: 'id-ID',
+      });
+    } catch (error) {
+      switch (error) {
+        case SpeechAndroid.E_VOICE_CANCELLED:
+          ToastAndroid.show('Voice Recognizer cancelled', ToastAndroid.LONG);
+          break;
+        case SpeechAndroid.E_NO_MATCH:
+          ToastAndroid.show('No match for what you said', ToastAndroid.LONG);
+          break;
+        case SpeechAndroid.E_SERVER_ERROR:
+          ToastAndroid.show('Google Server Error', ToastAndroid.LONG);
+          break;
+        /* And more errors that will be documented on Docs upon release */
+      }
+    }
+  }
+
   startSpeaking() {
     console.log('startSpeaking', this);
 
-    var message = 'Di sekitar anda, ada restoran: ';
+    let message = 'Di sekitar anda, ada restoran: ';
     let index = 1;
-    this.state.restaurants.map( item => {
-      message += `${index} ${item.restaurant.name} ,`
-      index++;
-    })
-    message += "Kamu mau pilih yang mana?"
-    console.log("message ", message);
+    this.state.restaurants.map(item => {
+      message += `${index} ${item.restaurant.name} ,`;
+      index += 1;
+    });
+    message += 'Kamu mau pilih yang mana, bos?';
+    console.log(`message '${message}'`);
 
     SpeechNotification.speak({
-      message: message,
+      message,
       language: 'id-ID',
     });
 
     // SpeechNotification.notify({
     //   title: 'IKU',
-    //   icon: 'icon', // {icon}.png/.jpg must be present in each corresponding android/app/src/main/res/drawable-*dpi/ folders
+    //   icon: 'icon',
+    // // {icon}.png/.jpg must be present in each
+    // //   corresponding android/app/src/main/res/drawable-*dpi/ folders
     //   message: '',
     //   language: 'en-US',
     // });
   }
-
-
-  async getSpeech() {
-    try{
-      //More Locales will be available upon release.
-      var spokenText = await SpeechAndroid.startSpeech("Speak yo", SpeechAndroid.INDONESIAN);
-      ToastAndroid.show(spokenText , ToastAndroid.LONG);
-
-      // put logic here
-      var input = spokenText.match(/\d/);
-      console.log("input=", input);
-
-      var number = input[0];
-      console.log(`number='${number}'`)
-
-      // format message
-      var restaurant = this.state.restaurants[number - 1].restaurant;
-      var message = `oke bos, mari kita memulai navigasi ke ${number}. ${restaurant.name}`
-      console.log(`message='${message}'`)
-      SpeechNotification.speak({
-        message: message,
-        language: 'id-ID',
-      });
-
-    }catch(error){
-      switch(error){
-        case SpeechAndroid.E_VOICE_CANCELLED:
-            ToastAndroid.show("Voice Recognizer cancelled" , ToastAndroid.LONG);
-            break;
-        case SpeechAndroid.E_NO_MATCH:
-            ToastAndroid.show("No match for what you said" , ToastAndroid.LONG);
-            break;
-        case SpeechAndroid.E_SERVER_ERROR:
-            ToastAndroid.show("Google Server Error" , ToastAndroid.LONG);
-            break;
-        /*And more errors that will be documented on Docs upon release*/
-      }
-    }
-  }
-
 
   render() {
     return (
@@ -201,13 +200,13 @@ export default class Map extends Component {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.bubble, styles.button]}
-            onPress={() => {this.startSpeaking()}}
+            onPress={() => { this.startSpeaking(); }}
           >
             <Text>iku</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.bubble, styles.button]}
-            onPress={() => {this.getSpeech()}}
+            onPress={() => { this.getSpeech(); }}
           >
             <Text>iki</Text>
           </TouchableOpacity>
