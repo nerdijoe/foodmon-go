@@ -52,6 +52,7 @@ class FooterTabs extends Component {
     }
   }
 
+
   render() {
     return (
       <Footer >
@@ -70,7 +71,7 @@ class FooterTabs extends Component {
           </Button>
           <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
-            <Text>Sign Up</Text>
+            <Text>Sign In</Text>
           </Button>
         </FooterTab>
       </Footer>
