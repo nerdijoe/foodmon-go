@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, AsyncStorage,
+  StyleSheet, AsyncStorage, StatusBar,
 } from 'react-native';
 import {
   Container,
@@ -63,7 +63,10 @@ class App extends Component {
 
     return (
       <Container>
-
+        <StatusBar
+          backgroundColor="#FFCD38"
+          barStyle="dark-content"
+        />
         <Router>
           <Scene key="map" component={Map} title="Map" hideNavBar={true} initial={true} />
           <Scene key="interests" component={InterestsList} title="Interests" />
