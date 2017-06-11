@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
 } from 'react-native';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import { Container } from 'native-base';
 
 import Recommendation from './Recommendation';
 import navigation from '../assets/map/navigation.png';
+import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
 
 });
 
-export default class Map extends Component {
+class Map extends Component {
   constructor() {
     super();
     this.state = {
@@ -65,18 +66,7 @@ export default class Map extends Component {
           description: 'Test',
         }],
       });
-
-      const that = this;
-      axios.get(`https://developers.zomato.com/api/v2.1/geocode?lat=${position.coords.latitude.toString()}&lon=${position.coords.longitude.toString()}`, {
-        headers: {
-          user_key: '2b958b1e249a2a26c68081cafe451194',
-        },
-      }).then((res) => {
-        that.setState({
-          restaurants: res.data.nearby_restaurants,
-        });
-        console.log(that.state.restaurants);
-      });
+      this.props.fetchZomato(position.coords.latitude, position.coords.longitude)
     });
   }
 
@@ -103,7 +93,7 @@ export default class Map extends Component {
               image={navigation}
             />
           ))}
-          {this.state.restaurants.map(restaurant => (
+          {this.props.restaurants.map(restaurant => (
             <Recommendation
               key={restaurant.restaurant.id}
               restaurant={restaurant.restaurant}
@@ -114,3 +104,13 @@ export default class Map extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  restaurants: state.restaurants,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchZomato: (latitude, longitude) => dispatch(fetchZomato(latitude, longitude)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
