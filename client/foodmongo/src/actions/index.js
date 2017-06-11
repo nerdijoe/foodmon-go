@@ -29,16 +29,28 @@ export const signin = data => ((dispatch) => {
   .then((response) => {
     AsyncStorage.setItem('token', response.data.token, (err) => {
       AsyncStorage.setItem('_id', response.data._id, (err) => {
-        Actions.profile();
-
         dispatch({
           type: actionType.ADD_COUNTER,
+        });
+        Actions.profile();
+        Toast.show({
+          text: 'Login successfully !',
+          position: 'bottom',
+          type: 'success',
+          duration: 3000,
         });
       });
     });
   })
   .catch((err) => {
     console.log(err);
+    Toast.show({
+      supportedOrientations: 'Potrait',
+      text: 'Wrong username and password is not correct !',
+      position: 'bottom',
+      type: 'danger',
+      duration: 3000,
+    });
   });
 });
 

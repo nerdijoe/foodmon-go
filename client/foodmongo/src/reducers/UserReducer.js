@@ -13,20 +13,6 @@ const initialState = {
   },
 };
 
-const signin = (state, payload) => {
-  console.log('data', payload.response.data)
-  const newData = {
-    username: payload.response.data.username,
-    token: payload.response.data.token,
-    _id: payload.response.data._id,
-  };
-  const newState = {
-    ...state,
-    login: { ...state.login, ...newData },
-  };
-  return newState;
-};
-
 const fetch_login = (state, payload) => {
   const newData = {
     username: payload.data.username,
@@ -56,16 +42,13 @@ const reset_login = (state, payload) => {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.SIGN_UP: {
-      
+
       return {
         ...state,
         name: action.data.name,
         username: action.data.username,
         email: action.data.email,
       };
-    }
-    case actionType.SIGN_IN: {
-      return signin(state, action);
     }
     case actionType.ADD_INTEREST_SUCCESS: {
       const updatedUser = {};
