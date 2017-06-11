@@ -31,7 +31,7 @@ class InterestsList extends Component {
       const arr = this.state.cuisines.filter(interest => interest.cuisine_name.match(regex));
       return arr;
     }
-    return this.props.pokemons;
+    return this.props.interests;
   }
 
   render() {
@@ -49,7 +49,7 @@ class InterestsList extends Component {
         </Header>
         <ListView
           contentContainerStyle={styles.backdrop}
-          dataArray={this.handleSearch()}
+          dataSource={this.state.cuisines}
           pageSize={20}
           renderRow={cuisine => (
             <InterestItem cuisine={cuisine} />
