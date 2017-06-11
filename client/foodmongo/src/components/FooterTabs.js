@@ -7,10 +7,18 @@ import { connect } from 'react-redux';
 import { addCounter, subtractCounter, resetCounter } from '../actions'
 
 class FooterTabs extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'map',
+    };
+  }
 
   onPressHandler = (key) => {
     console.log(`onPress ${key}`)
-    // Actions.map({type: "reset"})
+
+    this.setState({ selectedTab: key });
+
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
       if (this.props.nav_counter > 1) {
@@ -48,11 +56,11 @@ class FooterTabs extends Component {
     return (
       <Footer >
         <FooterTab>
-          <Button active vertical onPress={() => { this.onPressHandler('map'); }}>
-            <Icon active name="navigate" />
+          <Button active={this.state.selectedTab === 'map'} vertical onPress={() => { this.onPressHandler('map'); }}>
+            <Icon name="navigate" />
             <Text>Explore</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('interests'); }}>
+          <Button active={this.state.selectedTab === 'interests'} vertical onPress={() => { this.onPressHandler('interests'); }}>
             <Icon name="apps" />
             <Text>Interests</Text>
           </Button>
@@ -60,7 +68,7 @@ class FooterTabs extends Component {
             <Icon name="camera" />
             <Text>Camera</Text>
           </Button>
-          <Button vertical onPress={() => { this.onPressHandler('auth'); }}>
+          <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
             <Text>Sign Up</Text>
           </Button>
