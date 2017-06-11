@@ -56,7 +56,7 @@ const reset_login = (state, payload) => {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.SIGN_UP: {
-      Actions.signin();
+      
       return {
         ...state,
         name: action.data.name,
