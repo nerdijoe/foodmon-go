@@ -5,9 +5,20 @@ import { Actions } from 'react-native-router-flux';
 
 import * as actionType from './constants';
 
-export const SignUp = data => ({
-  type: actionType.SIGN_UP,
-  data,
+// export const SignUp = data => ({
+//   type: actionType.SIGN_UP,
+//   data,
+// });
+
+export const SignUp = data => ((dispatch) => {
+  dispatch({
+    type: actionType.SIGN_UP,
+    data,
+  });
+  dispatch({
+    type: actionType.ADD_COUNTER,
+  });
+  Actions.signin();
 });
 
 export const signin = data => ((dispatch) => {

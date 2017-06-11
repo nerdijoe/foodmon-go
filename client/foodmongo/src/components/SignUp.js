@@ -32,6 +32,7 @@ const styles = {
   },
   myButton: {
     padding: 10,
+    marginLeft: 20,
   },
 };
 
