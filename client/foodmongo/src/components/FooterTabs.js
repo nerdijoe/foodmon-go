@@ -17,7 +17,6 @@ class FooterTabs extends Component {
   onPressHandler = (key) => {
     console.log(`onPress ${key}`)
 
-    this.setState({ selectedTab: key });
 
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
@@ -27,8 +26,6 @@ class FooterTabs extends Component {
         Actions.pop();
       }
       this.props.resetCounter();
-    } else if (key === 'signup') {
-      Actions.signup();
     } else if (key === 'auth') {
       console.log('nav_counter=', this.props.nav_counter);
 
@@ -41,15 +38,20 @@ class FooterTabs extends Component {
         // Actions.signin();
       });
       console.log('*** FooterTab Actions.currentRouter.currentRoute=', Actions)
-      this.props.addCounter();
+
+      if (this.state.selectedTab !== key) {
+        this.props.addCounter();
+      }
     } else if (key === 'interests') {
-      this.props.addCounter();
+      if (this.state.selectedTab !== key) {
+        this.props.addCounter();
+      }
       Actions.interests();
-    } else if (key === 'signin') {
-      Actions.signin();
     } else {
       Actions.map();
     }
+
+    this.setState({ selectedTab: key });
   }
 
 
