@@ -11,7 +11,20 @@ class FooterTabs extends Component {
     super(props);
     this.state = {
       selectedTab: 'map',
+      auth_title: 'Sign In',
     };
+  }
+
+  componentDidMount(){
+    console.log("this.props.user_login ", this.props.user_login)
+    AsyncStorage.getItem('token', (err1, token) => {
+      console.log('FooterTabs componentDidMount', token);
+      if (token) {
+        this.setState({
+          auth_title: 'Profile',
+        })
+      }
+    });
   }
 
   onPressHandler = (key) => {
@@ -73,7 +86,7 @@ class FooterTabs extends Component {
           </Button>
           <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />
-            <Text>Sign In</Text>
+            <Text>{this.props.user_login.username ? 'Profile' : 'Sign In'}</Text>
           </Button>
         </FooterTab>
       </Footer>
@@ -84,6 +97,7 @@ class FooterTabs extends Component {
 const mapStateToProps = (state) => {
   return {
     nav_counter: state.NavReducer.counter,
+    user_login: state.UserReducer,
   };
 };
 
