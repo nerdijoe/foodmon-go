@@ -162,3 +162,17 @@ export const resetCounter = () => {
     type: actionType.RESET_COUNTER,
   };
 };
+
+export const fetchZomato = (latitude, longitude) => ((dispatch) => {
+  axios.get(`https://developers.zomato.com/api/v2.1/search?lat=${latitude}&lon=${longitude}&radius=500&sort=rating&order=desc`, {
+    headers: {
+      user_key: '2b958b1e249a2a26c68081cafe451194',
+    },
+  })
+  .then((res) => {
+    dispatch({
+      type: actionType.FETCH_ZOMATO_SUCCESS,
+      restaurants: res.data.restaurants,
+    });
+  });
+});
