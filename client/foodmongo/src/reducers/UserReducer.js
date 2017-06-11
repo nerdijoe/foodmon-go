@@ -41,22 +41,13 @@ const fetch_login = (state, payload) => {
 };
 
 const reset_login = (state, payload) => {
-  const newData = {
-    username: '',
-    token: '',
-    _id: '',
-  };
-  const newState = {
-    ...state,
-    login: { ...state.login, ...newData },
-  };
-  return newState;
+  return {};
 };
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.SIGN_UP: {
-      
+
       return {
         ...state,
         name: action.data.name,
