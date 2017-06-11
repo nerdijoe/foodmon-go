@@ -52,10 +52,10 @@ class App extends Component {
       console.log('app.js componentDidMount', token)
       if(token) {
         this.props.fetchUser()
-        this.props.fetchInterests();
+
       }
     });
-
+    this.props.fetchInterests();
   }
 
 

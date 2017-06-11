@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ListView } from 'react-native';
+import { View, StyleSheet, ListView, Text } from 'react-native';
+import { Container, Header, Item, Input, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 
 import InterestItem from './InterestItem';
@@ -10,6 +11,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    marginTop: 10,
   },
 });
 
@@ -23,12 +25,31 @@ class InterestsList extends Component {
     };
   }
 
+  handleSearch() {
+    if (this.state.searchTerm) {
+      const regex = new RegExp(this.state.searchTerm, 'g');
+      const arr = this.state.cuisines.filter(interest => interest.cuisine_name.match(regex));
+      return arr;
+    }
+    return this.props.pokemons;
+  }
+
   render() {
     return (
       <View>
+        <Header searchBar rounded>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Search Interest" onChangeText={(searchTerm) => { this.setState({ searchTerm }); }}/>
+            <Icon name="md-paper-plane" />
+          </Item>
+          <Button transparent>
+            <Text>Search</Text>
+          </Button>
+        </Header>
         <ListView
           contentContainerStyle={styles.backdrop}
-          dataSource={this.state.cuisines}
+          dataArray={this.handleSearch()}
           pageSize={20}
           renderRow={cuisine => (
             <InterestItem cuisine={cuisine} />
