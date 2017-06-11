@@ -2,9 +2,13 @@ import MapView from 'react-native-maps';
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
 } from 'react-native';
 import axios from 'axios';
 import { Container } from 'native-base';
+import SpeechNotification from 'react-native-speech-notification';
 
 import Recommendation from './Recommendation';
 import navigation from '../assets/map/navigation.png';
@@ -25,6 +29,23 @@ const styles = StyleSheet.create({
     // width: '100%',
     // flex: 1,
 
+  },
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
   },
 
 });
@@ -87,6 +108,31 @@ export default class Map extends Component {
     });
   }
 
+  startSpeaking() {
+    console.log('startSpeaking', this);
+
+    var message = 'Di sekitar anda, ada restoran: ';
+    let index = 1;
+    this.state.restaurants.map( item => {
+      message += `${index} ${item.restaurant.name} ,`
+      index++;
+    })
+    message += "Kamu mau pilih yang mana?"
+    console.log("message ", message);
+
+    SpeechNotification.speak({
+      message: message,
+      language: 'id-ID',
+    });
+
+    // SpeechNotification.notify({
+    //   title: 'IKU',
+    //   icon: 'icon', // {icon}.png/.jpg must be present in each corresponding android/app/src/main/res/drawable-*dpi/ folders
+    //   message: '',
+    //   language: 'en-US',
+    // });
+  }
+
   render() {
     return (
       <Container style={styles.container}>
@@ -110,6 +156,14 @@ export default class Map extends Component {
             />
           ))}
         </MapView.Animated>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.bubble, styles.button]}
+            onPress={() => {this.startSpeaking()}}
+          >
+            <Text>iku</Text>
+          </TouchableOpacity>
+        </View>
       </Container>
     );
   }
