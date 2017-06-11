@@ -4,10 +4,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Container } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 
 import Recommendation from './Recommendation';
-import navigation from '../assets/map/navigation.png';
 import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
@@ -34,19 +33,18 @@ class Map extends Component {
   constructor() {
     super();
     this.state = {
-      markers: [],
       restaurants: [],
-      region: new MapView.AnimatedRegion({
-        latitude: 6,
+      region: {
+        latitude: -6,
         longitude: 106,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
-      }),
-      active: 'true',
+        latitudeDelta: 0.00922 * 1.5,
+        longitudeDelta: 0.00421 * 1.5,
+      },
     };
   }
 
   componentWillMount() {
+    const that = this
     navigator.geolocation.watchPosition((position) => {
       const region = {
         latitude: position.coords.latitude,
@@ -54,19 +52,10 @@ class Map extends Component {
         latitudeDelta: 0.00922 * 1.5,
         longitudeDelta: 0.00421 * 1.5,
       };
-      this.onRegionChange(region, position.coords.accuracy);
-      this.setState({
-        markers: [{
-          id: 1,
-          latlng: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          },
-          title: 'Test',
-          description: 'Test',
-        }],
-      });
-      this.props.fetchZomato(position.coords.latitude, position.coords.longitude)
+      that.onRegionChange(region, position.coords.accuracy);
+      that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
+    }, null, {
+      enableHighAccuracy: true,
     });
   }
 
@@ -80,26 +69,20 @@ class Map extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <MapView.Animated
+        <MapView
+          showsUserLocation={true}
           style={styles.map}
           region={this.state.region}
+          zoomEnabled={false}
+          scrollEnabled={false}
         >
-          {this.state.markers.map(marker => (
-            <MapView.Marker
-              key={marker.id}
-              coordinate={marker.latlng}
-              title={marker.title}
-              description={marker.description}
-              image={navigation}
-            />
-          ))}
           {this.props.restaurants.map(restaurant => (
             <Recommendation
               key={restaurant.restaurant.id}
               restaurant={restaurant.restaurant}
             />
           ))}
-        </MapView.Animated>
+        </MapView>
       </Container>
     );
   }
