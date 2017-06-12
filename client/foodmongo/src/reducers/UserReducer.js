@@ -6,25 +6,8 @@ const initialState = {
   username: '',
   email: '',
   interestArr: [],
-  login: {
-    _id: '',
-    username: '',
-    token: '',
-  },
 };
 
-const fetch_login = (state, payload) => {
-  const newData = {
-    username: payload.data.username,
-    token: payload.data.token,
-    _id: payload.data._id,
-  };
-  const newState = {
-    ...state,
-    login: { ...state.login, ...newData },
-  };
-  return newState;
-};
 
 const reset_login = (state, payload) => {
   return {};
@@ -66,9 +49,6 @@ const UserReducer = (state = initialState, action) => {
       activeUser.email = action.user.email;
       activeUser.interestArr = action.user.interestArr;
       return activeUser;
-    }
-    case actionType.FETCH_LOGIN: {
-      return fetch_login(state, action);
     }
     case actionType.RESET_LOGIN: {
       return reset_login(state, action);

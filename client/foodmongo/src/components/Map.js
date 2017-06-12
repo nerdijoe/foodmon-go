@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Container, Content, Spinner } from 'native-base';
 
 import Recommendation from './Recommendation';
+import UserLocation from './UserLocation';
 import { fetchZomato } from '../actions';
 import ButtonVoice from './ButtonVoice';
 
@@ -22,12 +23,10 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    // height: '90%',
-    // width: '100%',
-    // flex: 1,
-
   },
 });
+
+var currentPosition
 
 class Map extends Component {
   constructor() {
@@ -46,16 +45,7 @@ class Map extends Component {
   componentWillMount() {
     const that = this;
     navigator.geolocation.getCurrentPosition((position) => {
-      const region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5,
-      };
-      that.onRegionChange(region, position.coords.accuracy);
-      that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
-    });
-    navigator.geolocation.watchPosition((position) => {
+      console.log(position);
       const region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -67,23 +57,69 @@ class Map extends Component {
     });
   }
 
-  onRegionChange(region, gpsAccuracy) {
-    this.setState({
-      region,
-      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
+  componentDidMount() {
+    const that = this;
+    currentPosition = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const region = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.00922 * 1.5,
+            longitudeDelta: 0.00421 * 1.5,
+          };
+          that.onRegionChange(region, position.coords.accuracy);
+        });
+    }, 300)
+    navigator.geolocation.watchPosition((position) => {
+      that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
     });
+  }
+
+  componentWillUnmount() {
+    clearInterval(currentPosition);
+  }
+
+  onRegionChange(region, gpsAccuracy) {
+    if (
+      this.state.region.latitude !== region.latitude ||
+      this.state.region.longitude !== region.longitude
+    ) {
+      this.setState({
+        region,
+        gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
+      });
+    }
+  }
+
+  stopMoving() {
+    clearInterval(currentPosition);
+  }
+
+  continueMoving() {
+    const that = this;
+    currentPosition = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const region = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.00922 * 1.5,
+            longitudeDelta: 0.00421 * 1.5,
+          };
+          that.onRegionChange(region, position.coords.accuracy);
+        });
+    }, 300)
   }
 
   render() {
     return (
       <Container style={styles.container}>
         <MapView
-          showsUserLocation={true}
           style={styles.map}
           region={this.state.region}
-          zoomEnabled={true}
-          scrollEnabled={true}
+          onMarkerSelect={() => { this.stopMoving(); }}
+          onMarkerDeselect={() => { this.continueMoving(); }}
         >
+          <UserLocation region={this.state.region}/>
           {this.props.restaurants.map(restaurant => (
             <Recommendation
               key={restaurant.restaurant.id}
