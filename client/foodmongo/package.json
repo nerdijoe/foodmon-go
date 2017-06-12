@@ -33,9 +33,16 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "jest": "20.0.4",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "react-test-renderer": "^16.0.0-alpha.6"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "/node_modules/(?!native-base)/"
+    ],
+    "setupFiles": [
+      "./src/test/setup.js"
+    ]
+
   }
 }

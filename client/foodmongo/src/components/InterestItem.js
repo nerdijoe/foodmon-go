@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { addInterest, removeInterest } from '../actions';
 
 
-class InterestItem extends Component {
+export class InterestItem extends Component {
   constructor(props) {
     super(props);
     const { width, height } = Dimensions.get('window');

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { addCounter, subtractCounter, resetCounter } from '../actions'
 
-class FooterTabs extends Component {
+export class FooterTabs extends Component {
   constructor(props) {
     super(props);
     this.state = {
