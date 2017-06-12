@@ -13,6 +13,7 @@ import SpeechNotification from 'react-native-speech-notification';
 import SpeechAndroid from 'react-native-android-voice';
 
 import Recommendation from './Recommendation';
+import UserLocation from './UserLocation';
 import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
@@ -67,6 +68,7 @@ class Map extends Component {
   componentWillMount() {
     const that = this;
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
       const region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -97,11 +99,14 @@ class Map extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(currentPosition)
+    clearInterval(currentPosition);
   }
 
   onRegionChange(region, gpsAccuracy) {
-    if (this.state.region.latitude !== region.latitude || this.state.region.longitude !== region.longitude) {
+    if (
+      this.state.region.latitude !== region.latitude ||
+      this.state.region.longitude !== region.longitude
+    ) {
       this.setState({
         region,
         gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
@@ -150,6 +155,25 @@ class Map extends Component {
     }
   }
 
+  stopMoving() {
+    clearInterval(currentPosition);
+  }
+
+  continueMoving() {
+    const that = this;
+    currentPosition = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const region = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.00922 * 1.5,
+            longitudeDelta: 0.00421 * 1.5,
+          };
+          that.onRegionChange(region, position.coords.accuracy);
+        });
+    }, 300)
+  }
+
   startSpeaking() {
     console.log('startSpeaking', this);
 
@@ -181,12 +205,12 @@ class Map extends Component {
     return (
       <Container style={styles.container}>
         <MapView
-          showsUserLocation={true}
           style={styles.map}
           region={this.state.region}
-          zoomEnabled={true}
-          scrollEnabled={true}
+          onMarkerSelect={() => { this.stopMoving(); }}
+          onMarkerDeselect={() => { this.continueMoving(); }}
         >
+          <UserLocation region={this.state.region}/>
           {this.props.restaurants.map(restaurant => (
             <Recommendation
               key={restaurant.restaurant.id}

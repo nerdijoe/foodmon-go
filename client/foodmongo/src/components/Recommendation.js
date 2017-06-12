@@ -4,8 +4,8 @@ import { Content } from 'native-base';
 import { View, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import fav from '../assets/recommendation/marker_fav.png';
-import marker from '../assets/recommendation/marker_normal.png'
+import fav from '../assets/recommendation/marker_fav_width100.png';
+import marker from '../assets/recommendation/marker_normal_width100.png'
 
 class Recommendation extends Component {
   handleInterest() {

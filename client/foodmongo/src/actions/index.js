@@ -50,7 +50,6 @@ export const signin = data => ((dispatch) => {
 export const fetchUser = () => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
-      console.log('actions fetchUser', token);
       axios.get(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`, {
         headers: {
           token,
