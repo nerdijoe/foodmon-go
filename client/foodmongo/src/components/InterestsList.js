@@ -8,10 +8,11 @@ import { fetchInterests } from '../actions';
 
 const styles = StyleSheet.create({
   backdrop: {
+    display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    marginTop: 10,
+    // marginTop: 0,
   },
 });
 
