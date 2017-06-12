@@ -56,7 +56,6 @@ class App extends Component {
         this.props.fetchUser()
       }
     });
-    this.props.fetchInterests();
   }
 
 

@@ -4,26 +4,31 @@ import { Content } from 'native-base';
 import { View, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-const b = '#000000'
+import fav from '../assets/recommendation/marker_fav_width100.png';
+import marker from '../assets/recommendation/marker_normal_width100.png'
 
 class Recommendation extends Component {
   handleInterest() {
     let cuisinesArr = this.props.restaurant.cuisines.split(', ');
     let interestArr = this.props.user.interestArr;
-    for (let i = 0; i < interestArr.length; i++) {
-      for (let j = 0; j < cuisinesArr.length; j++) {
-        if (interestArr[i].cuisine_name === cuisinesArr[j]) {
-          return 'blue';
+    if (interestArr) {
+      for (let i = 0; i < interestArr.length; i++) {
+        for (let j = 0; j < cuisinesArr.length; j++) {
+          if (interestArr[i].cuisine_name === cuisinesArr[j]) {
+            return fav;
+          }
         }
       }
+    } else {
+      return marker;
     }
-    return 'red';
   }
+  
   render() {
     return (
       <Content>
         <MapView.Marker
-          pinColor={this.handleInterest()}
+          image={this.handleInterest()}
           coordinate={{
             latitude: Number(this.props.restaurant.location.latitude),
             longitude: Number(this.props.restaurant.location.longitude),
