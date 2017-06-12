@@ -25,6 +25,15 @@ class Recommendation extends Component {
     }
   }
 
+  handleImage() {
+    if(this.props.restaurant.featured_image){
+      return {
+        uri: this.props.restaurant.featured_image
+      }
+    }
+    return {}
+  }
+
   render() {
     return (
       <Content>
@@ -34,12 +43,13 @@ class Recommendation extends Component {
             latitude: Number(this.props.restaurant.location.latitude),
             longitude: Number(this.props.restaurant.location.longitude),
           }}
+          onPress={()=>{this.props.handleClick()}}
         >
           <MapView.Callout>
             <View>
               <Image
                 style={{ height: 150, width: 150 }}
-                source={{ uri: this.props.restaurant.featured_image }}
+                source={this.handleImage()}
               />
               <Text>{this.props.restaurant.name}</Text>
               <Text numberOfLines={2}>
