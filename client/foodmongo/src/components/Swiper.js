@@ -23,7 +23,7 @@ class Swiper extends Component {
           <CardItem cardBody>
             <Body style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
               <Image
-                style={{ width: 200, height: 150 }}
+                style={{ width: 270, height: 220 }}
                 source={{ uri: item.restaurant.featured_image }}
               />
               <Text note style={{ margin: 20, textAlign: 'center' }}>{item.restaurant.location.address}</Text>
