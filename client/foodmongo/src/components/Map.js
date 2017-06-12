@@ -8,8 +8,9 @@ import { Container } from 'native-base';
 
 import Recommendation from './Recommendation';
 import UserLocation from './UserLocation';
-import { fetchZomato } from '../actions';
 import ButtonVoice from './ButtonVoice';
+import RecenterButton from './RecenterButton';
+import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -133,6 +134,20 @@ class Map extends Component {
     });
   }
 
+  reCenterButton() {
+    if(this.state.markerClicked || this.state.regionChanged){
+      return(
+        <RecenterButton handlePress={() => {
+          this.setState({
+            markerClicked: false,
+            regionChanged: false,
+          });
+        }}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <Container style={styles.container}>
@@ -163,7 +178,7 @@ class Map extends Component {
         </MapView>
 
         <ButtonVoice />
-
+        {this.reCenterButton()}
       </Container>
     );
   }
