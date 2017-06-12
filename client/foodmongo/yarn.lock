@@ -3562,6 +3562,10 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-android-voice@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-android-voice/-/react-native-android-voice-0.5.1.tgz#9046c53f43c771b7676c9d5250c094bb23ed36ed"
+
 react-native-drawer@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-native-drawer/-/react-native-drawer-2.3.0.tgz#a0369ec80ff0b61c9f152dbdea91fe76c843113a"
@@ -3603,9 +3607,21 @@ react-native-router-flux@^3.39.2:
     react-native-tabs "^1.0.9"
     react-static-container "1.0.1"
 
+"react-native-speech-notification@git+https://github.com/kn4rfy/react-native-speech-notification.git":
+  version "0.1.2"
+  resolved "git+https://github.com/kn4rfy/react-native-speech-notification.git#c43c4cb5e1e70a867ec032cb67332051875db820"
+
 react-native-tabs@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/react-native-tabs/-/react-native-tabs-1.0.9.tgz#75d3c35e8b5b6970869eab282372cb32e2a782cd"
+
+react-native-vector-icons@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.2.0.tgz#0594b68debdd758dce4c565bf02e2d64d7004d82"
+  dependencies:
+    lodash "^4.0.0"
+    prop-types "^15.5.8"
+    yargs "^6.3.0"
 
 react-native-vector-icons@~4.1.1:
   version "4.1.1"

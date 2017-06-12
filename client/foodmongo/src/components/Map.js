@@ -160,8 +160,8 @@ class Map extends Component {
           showsUserLocation={true}
           style={styles.map}
           region={this.state.region}
-          zoomEnabled={false}
-          scrollEnabled={false}
+          zoomEnabled={true}
+          scrollEnabled={true}
         >
           {this.props.restaurants.map(restaurant => (
             <Recommendation
@@ -172,7 +172,7 @@ class Map extends Component {
 
         </MapView>
 
-        
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.bubble, styles.button]}
