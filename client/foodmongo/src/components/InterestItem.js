@@ -39,6 +39,13 @@ class InterestItem extends Component {
     });
   }
 
+  // onLayout() {
+  //   const { width, height } = Dimensions.get('window');
+  //   this.setState({
+  //     width,
+  //     height,
+  //   });
+  // }
 
   handleInterest() {
     if(this.props.user.interestArr) {
