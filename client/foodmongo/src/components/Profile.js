@@ -72,12 +72,12 @@ class Profile extends React.Component {
             <Body style={{ paddingTop: 20 }}>
               <Thumbnail size={80} source={ require('../assets/profile/user_profile_female.png')} />
               <Text>{this.props.user.username}</Text>
-                <Button small bordered disabled>
+                <Button small bordered style={{ marginTop: 5 }}>
                   <Text note onPress={() => this.onLogout()} style={{ margin: 0, fontSize: 12 }}>Logout</Text>
                 </Button>
             </Body>
           </List>
-          <H3 style={{ paddingLeft: 20, fontSize: 14 }}>List Interests</H3>
+          <H3 style={{ paddingLeft: 20, fontSize: 14 }}>Interests</H3>
           {this.handleListInterests()}
         </Content>
       </Container>

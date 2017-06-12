@@ -19,11 +19,12 @@ class Recommendation extends Component {
           }
         }
       }
+      return marker;
     } else {
       return marker;
     }
   }
-  
+
   render() {
     return (
       <Content>

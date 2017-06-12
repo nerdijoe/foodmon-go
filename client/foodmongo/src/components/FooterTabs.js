@@ -77,11 +77,11 @@ class FooterTabs extends Component {
       <Footer >
         <FooterTab>
           <Button active={this.state.selectedTab === 'map'} vertical onPress={() => { this.onPressHandler('map'); }}>
-            <Icon name="navigate" />
+            <Icon name="md-compass" />
             <Text>Explore</Text>
           </Button>
           <Button active={this.state.selectedTab === 'interests'} vertical onPress={() => { this.onPressHandler('interests'); }}>
-            <Icon name="apps" />
+            <Icon name="md-star" />
             <Text>Interests</Text>
           </Button>
           <Button active={this.state.selectedTab === 'swiper'} vertical onPress={() => { this.onPressHandler('swiper'); }}>
@@ -89,7 +89,7 @@ class FooterTabs extends Component {
             <Text>List</Text>
           </Button>
           <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
-            <Icon name="person" />
+            <Icon name="md-person" />
             <Text>{this.props.user_login.username ? 'Profile' : 'Sign In'}</Text>
           </Button>
         </FooterTab>
