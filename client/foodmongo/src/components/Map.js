@@ -58,8 +58,8 @@ class Map extends Component {
     this.state = {
       restaurants: [],
       region: {
-        latitude: -6,
-        longitude: 106,
+        latitude: -6.195024,
+        longitude: 106.823006,
         latitudeDelta: 0.00922 * 1.5,
         longitudeDelta: 0.00421 * 1.5,
       },
@@ -67,7 +67,17 @@ class Map extends Component {
   }
 
   componentWillMount() {
-    const that = this
+    const that = this;
+    navigator.geolocation.getCurrentPosition((position) => {
+      const region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.00922 * 1.5,
+        longitudeDelta: 0.00421 * 1.5,
+      };
+      that.onRegionChange(region, position.coords.accuracy);
+      that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
+    });
     navigator.geolocation.watchPosition((position) => {
       const region = {
         latitude: position.coords.latitude,
@@ -77,8 +87,6 @@ class Map extends Component {
       };
       that.onRegionChange(region, position.coords.accuracy);
       that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
-    }, null, {
-      enableHighAccuracy: true,
     });
   }
 
@@ -95,6 +103,10 @@ class Map extends Component {
       const spokenText = await SpeechAndroid.startSpeech('Speak yo', SpeechAndroid.INDONESIAN);
       ToastAndroid.show(spokenText, ToastAndroid.LONG);
 
+      SpeechNotification.speak({
+        message: spokenText,
+        language: 'id-ID',
+      });
       // put logic here
       const input = spokenText.match(/\d/);
       console.log(`input=${input}`);
@@ -103,7 +115,7 @@ class Map extends Component {
       console.log(`number='${number}'`);
 
       // format message
-      const restaurant = this.state.restaurants[number - 1].restaurant;
+      const restaurant = this.props.restaurants[number - 1].restaurant;
       const message = `oke bos, mari kita memulai navigasi ke ${number}. ${restaurant.name}`;
       console.log(`message='${message}'`);
       SpeechNotification.speak({
@@ -131,7 +143,7 @@ class Map extends Component {
 
     let message = 'Di sekitar anda, ada restoran: ';
     let index = 1;
-    this.state.restaurants.map(item => {
+    this.props.restaurants.map(item => {
       message += `${index} ${item.restaurant.name} ,`;
       index += 1;
     });
@@ -160,8 +172,8 @@ class Map extends Component {
           showsUserLocation={true}
           style={styles.map}
           region={this.state.region}
-          zoomEnabled={false}
-          scrollEnabled={false}
+          zoomEnabled={true}
+          scrollEnabled={true}
         >
           {this.props.restaurants.map(restaurant => (
             <Recommendation
@@ -172,7 +184,7 @@ class Map extends Component {
 
         </MapView>
 
-        
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.bubble, styles.button]}
