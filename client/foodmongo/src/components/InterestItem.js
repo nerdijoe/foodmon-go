@@ -27,21 +27,24 @@ const styles = StyleSheet.create({
 
 class InterestItem extends Component {
   handleInterest() {
-    for (let i = 0; i < this.props.user.interestArr.length; i++) {
-      if (this.props.user.interestArr[i]._id === this.props.cuisine._id){
-        return (
-          <TouchableOpacity onPress={() => { this.props.removeInterest(this.props.cuisine, this.props.user); }}>
-            <Image style={styles.backdropView} source={{ uri: `http://loremflickr.com/g/320/240/${this.props.cuisine.cuisine_name},food/all` }}>
-              <View>
-                <Text style={styles.headline}>
-                  {this.props.cuisine.cuisine_name} selected
-                </Text>
-              </View>
-            </Image>
-          </TouchableOpacity>
-        )
+    if(this.props.user.interestArr) {
+      for (let i = 0; i < this.props.user.interestArr.length; i++) {
+        if (this.props.user.interestArr[i]._id === this.props.cuisine._id){
+          return (
+            <TouchableOpacity onPress={() => { this.props.removeInterest(this.props.cuisine, this.props.user); }}>
+              <Image style={styles.backdropView} source={{ uri: `http://loremflickr.com/g/320/240/${this.props.cuisine.cuisine_name},food/all` }}>
+                <View>
+                  <Text style={styles.headline}>
+                    {this.props.cuisine.cuisine_name} selected
+                  </Text>
+                </View>
+              </Image>
+            </TouchableOpacity>
+          )
+        }
       }
     }
+
     // this.props.user.interestArr.map(interest=)
     return (
       <TouchableOpacity onPress={() => { this.props.addInterest(this.props.cuisine, this.props.user); }}>

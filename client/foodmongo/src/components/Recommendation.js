@@ -11,15 +11,19 @@ class Recommendation extends Component {
   handleInterest() {
     let cuisinesArr = this.props.restaurant.cuisines.split(', ');
     let interestArr = this.props.user.interestArr;
-    for (let i = 0; i < interestArr.length; i++) {
-      for (let j = 0; j < cuisinesArr.length; j++) {
-        if (interestArr[i].cuisine_name === cuisinesArr[j]) {
-          return fav;
+    if (interestArr) {
+      for (let i = 0; i < interestArr.length; i++) {
+        for (let j = 0; j < cuisinesArr.length; j++) {
+          if (interestArr[i].cuisine_name === cuisinesArr[j]) {
+            return fav;
+          }
         }
       }
+    } else {
+      return marker;
     }
-    return marker;
   }
+  
   render() {
     return (
       <Content>
