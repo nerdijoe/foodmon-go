@@ -22,16 +22,19 @@ class InterestsList extends Component {
       cuisines: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
       }).cloneWithRows(this.props.interests),
+      searchTerm: '',
     };
   }
 
   handleSearch() {
     if (this.state.searchTerm) {
-      const regex = new RegExp(this.state.searchTerm, 'g');
-      const arr = this.state.cuisines.filter(interest => interest.cuisine_name.match(regex));
-      return arr;
+      const regex = new RegExp(this.state.searchTerm, 'gi');
+      const arr = this.props.interests.filter(interest => interest.cuisine_name.match(regex));
+      return new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }).cloneWithRows(arr);
     }
-    return this.props.interests;
+    return this.state.cuisines;
   }
 
   render() {
@@ -49,7 +52,7 @@ class InterestsList extends Component {
         </Header>
         <ListView
           contentContainerStyle={styles.backdrop}
-          dataSource={this.state.cuisines}
+          dataSource={this.handleSearch()}
           pageSize={20}
           renderRow={cuisine => (
             <InterestItem cuisine={cuisine} />

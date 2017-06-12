@@ -27,10 +27,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    // height: '90%',
-    // width: '100%',
-    // flex: 1,
-
   },
   bubble: {
     backgroundColor: 'rgba(255,255,255,0.7)',
@@ -51,6 +47,8 @@ const styles = StyleSheet.create({
   },
 
 });
+
+var currentPosition
 
 class Map extends Component {
   constructor() {
@@ -78,23 +76,37 @@ class Map extends Component {
       that.onRegionChange(region, position.coords.accuracy);
       that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
     });
+  }
+
+  componentDidMount() {
+    const that = this;
+    currentPosition = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const region = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.00922 * 1.5,
+            longitudeDelta: 0.00421 * 1.5,
+          };
+          that.onRegionChange(region, position.coords.accuracy);
+        });
+    }, 300)
     navigator.geolocation.watchPosition((position) => {
-      const region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5,
-      };
-      that.onRegionChange(region, position.coords.accuracy);
       that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
     });
   }
 
+  componentWillUnmount() {
+    clearInterval(currentPosition)
+  }
+
   onRegionChange(region, gpsAccuracy) {
-    this.setState({
-      region,
-      gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
-    });
+    if (this.state.region.latitude !== region.latitude || this.state.region.longitude !== region.longitude) {
+      this.setState({
+        region,
+        gpsAccuracy: gpsAccuracy || this.state.gpsAccuracy,
+      });
+    }
   }
 
   async getSpeech() {

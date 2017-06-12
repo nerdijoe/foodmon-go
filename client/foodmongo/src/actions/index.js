@@ -44,13 +44,6 @@ export const signin = data => ((dispatch) => {
   })
   .catch((err) => {
     console.log(err);
-    Toast.show({
-      supportedOrientations: 'Potrait',
-      text: 'Wrong username and password is not correct !',
-      position: 'bottom',
-      type: 'danger',
-      duration: 3000,
-    });
   });
 });
 
@@ -73,14 +66,6 @@ export const fetchUser = () => ((dispatch) => {
   });
 });
 
-export const fetch_login = data => {
-	return dispatch => {
-    return dispatch({
-			type : actionType.FETCH_LOGIN,
-			data
-		})
-  }
-};
 
 export const reset_login = () => {
 	return dispatch => {
