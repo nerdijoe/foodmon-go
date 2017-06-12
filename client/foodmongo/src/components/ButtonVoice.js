@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
 });
 
 class ButtonVoice extends Component {
+
   async getSpeech() {
     try {
       // More Locales will be available upon release.
