@@ -5,7 +5,7 @@ import { Container, Header, Body, Title, Text, Content, Item, Input, Label, Butt
 import { Actions } from 'react-native-router-flux';
 import { signin, addCounter } from '../actions';
 
-class SignIn extends React.Component {
+export class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

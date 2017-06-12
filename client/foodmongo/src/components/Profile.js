@@ -6,7 +6,7 @@ import { Container, Content, Spinner, Header, Body, Title, Thumbnail, List, List
 
 import { reset_login, addCounter, fetchUser, removeInterest } from '../actions';
 
-class Profile extends React.Component {
+export class Profile extends React.Component {
 
   componentDidMount() {
     this.props.fetchUser();

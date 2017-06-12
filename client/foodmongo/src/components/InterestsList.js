@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class InterestsList extends Component {
+export class InterestsList extends Component {
   constructor(props) {
     super(props);
     this.state = {

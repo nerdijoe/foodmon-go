@@ -36,7 +36,7 @@ const styles = {
   },
 };
 
-class SignUp extends React.Component {
+export class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

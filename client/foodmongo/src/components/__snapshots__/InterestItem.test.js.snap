@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InterestItem renders and match to snapshot 1`] = `
+<View>
+  <View
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    hitSlop={undefined}
+    isTVSelectable={true}
+    onLayout={undefined}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+    testID={undefined}
+    tvParallaxProperties={undefined}
+  >
+    <Image
+      source={
+        Object {
+          "uri": "http://loremflickr.com/g/300/300/Aceh,food/all",
+        }
+      }
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0,0)",
+          "borderColor": "white",
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 250,
+          "width": 250,
+        }
+      }
+    >
+      <View>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0)",
+              "color": "white",
+              "fontSize": 20,
+              "paddingTop": 10,
+              "textAlign": "center",
+            }
+          }
+        >
+          Aceh
+           selected
+        </Text>
+      </View>
+    </Image>
+  </View>
+</View>
+`;
