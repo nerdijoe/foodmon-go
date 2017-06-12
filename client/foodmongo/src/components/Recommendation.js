@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import fav from '../assets/recommendation/marker_fav_width100.png';
 import marker from '../assets/recommendation/marker_normal_width100.png'
+import favSmall from '../assets/recommendation/marker_fav.png';
+import markerSmall from '../assets/recommendation/marker_normal.png'
 
 class Recommendation extends Component {
   handleInterest() {
@@ -15,13 +17,13 @@ class Recommendation extends Component {
       for (let i = 0; i < interestArr.length; i++) {
         for (let j = 0; j < cuisinesArr.length; j++) {
           if (interestArr[i].cuisine_name === cuisinesArr[j]) {
-            return fav;
+            return favSmall;
           }
         }
       }
-      return marker;
+      return markerSmall;
     } else {
-      return marker;
+      return markerSmall;
     }
   }
 
