@@ -18,7 +18,6 @@ import store from './src/store/manageStore';
 export default class foodmongo extends Component {
 
   render() {
-
     return (
       <StyleProvider style={getTheme(commonColor)}>
         <Provider store={store}>

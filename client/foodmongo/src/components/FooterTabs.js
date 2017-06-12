@@ -30,7 +30,6 @@ class FooterTabs extends Component {
   onPressHandler = (key) => {
     console.log(`onPress ${key}`)
 
-
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
       if (this.props.nav_counter > 1) {
@@ -60,6 +59,11 @@ class FooterTabs extends Component {
         this.props.addCounter();
       }
       Actions.interests();
+    } else if (key === 'swiper') {
+      if (this.state.selectedTab !== key) {
+        this.props.addCounter();
+      }
+      Actions.swiper();
     } else {
       Actions.map();
     }
@@ -80,9 +84,9 @@ class FooterTabs extends Component {
             <Icon name="apps" />
             <Text>Interests</Text>
           </Button>
-          <Button vertical>
-            <Icon name="camera" />
-            <Text>Camera</Text>
+          <Button active={this.state.selectedTab === 'swiper'} vertical onPress={() => { this.onPressHandler('swiper'); }}>
+            <Icon name="md-images" />
+            <Text>List</Text>
           </Button>
           <Button active={this.state.selectedTab === 'auth'} vertical onPress={() => { this.onPressHandler('auth'); }}>
             <Icon name="person" />

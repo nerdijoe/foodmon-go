@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     // height: '90%',
     // width: '100%',
     // flex: 1,
-
   },
   bubble: {
     backgroundColor: 'rgba(255,255,255,0.7)',
