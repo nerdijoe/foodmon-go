@@ -191,9 +191,16 @@ class Map extends Component {
             />
           ))}
 
+          <MapView.Polyline
+            coordinates={this.props.coords}
+            strokeWidth={2}
+            strokeColor="red"
+          />
+
         </MapView>
 
-        <ButtonVoice />
+
+        <ButtonVoice userPosition={this.state.userPosition} />
         {this.reCenterButton()}
       </Container>
     );
@@ -202,6 +209,7 @@ class Map extends Component {
 
 const mapStateToProps = state => ({
   restaurants: state.restaurants,
+  coords: state.directions.coords,
 });
 
 const mapDispatchToProps = dispatch => ({

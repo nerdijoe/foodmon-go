@@ -75,6 +75,7 @@ export class Profile extends React.Component {
                 <Button small bordered style={{ marginTop: 5 }}>
                   <Text note onPress={() => this.onLogout()} style={{ margin: 0, fontSize: 12 }}>Logout</Text>
                 </Button>
+
             </Body>
           </List>
           <H3 style={{ paddingLeft: 20, fontSize: 14 }}>Interests</H3>

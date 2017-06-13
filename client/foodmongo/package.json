@@ -8,6 +8,7 @@
     "lint": "./node_modules/.bin/eslint src"
   },
   "dependencies": {
+    "@mapbox/polyline": "^0.2.0",
     "axios": "^0.16.2",
     "babel-eslint": "^7.2.3",
     "eslint": "^3.19.0",
@@ -43,6 +44,5 @@
     "setupFiles": [
       "./src/test/setup.js"
     ]
-
   }
 }
