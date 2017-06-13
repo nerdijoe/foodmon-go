@@ -48,33 +48,53 @@ class ButtonVoice extends Component {
       ToastAndroid.show(spokenText, ToastAndroid.LONG);
       // ToastAndroid.showWithGravity('All Your Base Are Belong To Us', ToastAndroid.SHORT, ToastAndroid.CENTER);
 
-      SpeechNotification.speak({
-        message: spokenText,
-        language: 'id-ID',
-      });
-      // put logic here
+      // SpeechNotification.speak({
+      //   message: spokenText,
+      //   language: 'id-ID',
+      // });
 
-      if (spokenText.match(/\d/)) {
-        const input = spokenText.match(/\d/);
+      let message = '';
+      if (spokenText.match(/[\d]+/)) {
+        const input = spokenText.match(/[\d]+/);
         console.log(`input=${input}`);
 
         const number = input[0];
         console.log(`number='${number}'`);
 
-        // format message
-        const restaurant = this.props.restaurants[number - 1].restaurant;
-        const message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
-        console.log(`message='${message}'`);
+        if (number - 1 > this.props.restaurants.length) {
+          message = `Maaf bos, pilihan anda salah.`;
+          SpeechNotification.speak({
+            message,
+            language: 'id-ID',
+          });
+        } else {
+          // format message
+          const restaurant = this.props.restaurants[number - 1].restaurant;
+          message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+          console.log(`message='${message}'`);
+          SpeechNotification.speak({
+            message,
+            language: 'id-ID',
+          });
+
+          console.log('===> userPosition=', this.props.userPosition);
+          this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);        }
+
+      } else if (spokenText.match(/batal/)) {
+        // clear polyline
+        this.props.updateCoordinates([]);
+      } else if (spokenText.match(/iku/)) {
+        message = 'Pancasila.. 1. Ketuhanan Yang Maha Esa, 2. kemanusiaan yang adil dan beradab, 3. persatuan Indonesia, 4. kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan, 5. keadilan sosial bagi seluruh rakyat Indonesia';
         SpeechNotification.speak({
           message,
           language: 'id-ID',
         });
-
-        console.log('===> userPosition=', this.props.userPosition);
-        this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);
-      } else if (spokenText.match(/batal/)) {
-        // clear polyline
-        this.props.updateCoordinates([]);
+      } else {
+        message = `Maaf bos, maksudnya ${spokenText} apa?`;
+        SpeechNotification.speak({
+          message,
+          language: 'id-ID',
+        });
       }
     } catch (error) {
       switch (error) {
