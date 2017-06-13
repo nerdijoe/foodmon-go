@@ -46,6 +46,11 @@ export class InterestItem extends Component {
   //     height,
   //   });
   // }
+  handleAdd() {
+    if (this.props.user.interestArr){
+      this.props.addInterest(this.props.cuisine, this.props.user);
+    }
+  }
 
   handleInterest() {
     if(this.props.user.interestArr) {
@@ -74,7 +79,7 @@ export class InterestItem extends Component {
     // this.props.user.interestArr.map(interest=)
     return (
       <TouchableOpacity
-        onPress={() => { this.props.addInterest(this.props.cuisine, this.props.user); }}
+        onPress={() => { this.handleAdd(); }}
       >
         <Image
           source={{ uri: `http://loremflickr.com/300/300/${this.props.cuisine.cuisine_name},food/all` }}
