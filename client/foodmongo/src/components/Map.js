@@ -133,7 +133,6 @@ class Map extends Component {
   }
 
   handleMarkerClick(position) {
-    this.stopCenter();
     this.setState({
       markerClicked: true,
       region: {
@@ -183,8 +182,9 @@ class Map extends Component {
               key={restaurant.restaurant.id}
               restaurant={restaurant.restaurant}
               handleClick={() => {
+                this.stopCenter();
                 this.handleMarkerClick({
-                  latitude: Number(restaurant.restaurant.location.latitude),
+                  latitude: Number(restaurant.restaurant.location.latitude)+0.002,
                   longitude: Number(restaurant.restaurant.location.longitude),
                 });
               }}
