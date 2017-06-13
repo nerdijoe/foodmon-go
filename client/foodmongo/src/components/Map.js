@@ -11,6 +11,7 @@ import UserLocation from './UserLocation';
 import ButtonVoice from './ButtonVoice';
 import RecenterButton from './RecenterButton';
 import { fetchZomato } from '../actions';
+import { customStyle } from './MapCustomStyle';
 
 const styles = StyleSheet.create({
   container: {
@@ -165,6 +166,7 @@ class Map extends Component {
       <Container style={styles.container}>
         <MapView
           style={styles.map}
+          customMapStyle={customStyle}
           region={this.state.region}
           onRegionChange={(e) => {
             this.onRegionChange(e);
