@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-var currentPosition, watchZomato;
+var currentPosition, currentRegion, watchZomato;
 
 class Map extends Component {
   constructor(props) {
@@ -51,6 +51,32 @@ class Map extends Component {
   }
 
   componentWillMount() {
+    this.getCurrentPosition();
+  }
+
+  componentDidMount() {
+    this.startMoving();
+    this.startWatching();
+    this.startCenter();
+  }
+
+  componentWillUnmount() {
+    clearInterval(currentPosition);
+  }
+
+  onRegionChange(region) {
+    this.setState({
+      region,
+    });
+  }
+
+  onUserPositionChange(userPosition) {
+    this.setState({
+      userPosition,
+    });
+  }
+
+  getCurrentPosition() {
     const that = this;
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position);
@@ -65,35 +91,23 @@ class Map extends Component {
     });
   }
 
-  componentDidMount() {
-    this.startMoving();
-    this.startWatching();
-  }
-
-  componentWillUnmount() {
-    clearInterval(currentPosition);
-  }
-
-  onRegionChange(region) {
-    if (
-      this.state.region.latitude !== region.latitude ||
-      this.state.region.longitude !== region.longitude
-    ) {
-      this.setState({
-        region,
-      });
-    }
-  }
-
-  onUserPositionChange(userPosition) {
-    this.setState({
-      userPosition,
-    });
-  }
-
   startMoving() {
     const that = this;
     currentPosition = setInterval(() => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userPosition = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        that.onUserPositionChange(userPosition);
+      });
+    }, 300);
+  }
+
+  startCenter() {
+    const that = this
+    currentRegion = setInterval(() => {
+      console.log('centered');
       navigator.geolocation.getCurrentPosition((position) => {
         const region = {
           latitude: position.coords.latitude,
@@ -101,16 +115,13 @@ class Map extends Component {
           latitudeDelta: 0.00922 * 1.5,
           longitudeDelta: 0.00421 * 1.5,
         };
-        const userPosition = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-        that.onUserPositionChange(userPosition);
-        if (that.state.markerClicked === false && that.state.regionChanged === false) {
-          that.onRegionChange(region);
-        }
+        that.onRegionChange(region);
       });
     }, 300)
+  }
+
+  stopCenter() {
+    clearInterval(currentRegion);
   }
 
   startWatching() {
@@ -123,6 +134,7 @@ class Map extends Component {
   }
 
   handleMarkerClick(position) {
+    this.stopCenter();
     this.setState({
       markerClicked: true,
       region: {
@@ -135,13 +147,15 @@ class Map extends Component {
   }
 
   reCenterButton() {
-    if(this.state.markerClicked || this.state.regionChanged){
-      return(
+    if (this.state.markerClicked || this.state.regionChanged) {
+      return (
         <RecenterButton handlePress={() => {
           this.setState({
             markerClicked: false,
             regionChanged: false,
           });
+          this.startCenter();
+          this.getCurrentPosition();
         }}
         />
       );
@@ -155,10 +169,14 @@ class Map extends Component {
           style={styles.map}
           region={this.state.region}
           onRegionChange={(e) => {
+            console.log('regionChanged');
             this.onRegionChange(e);
-            this.setState({
-              regionChanged: true,
-            });
+            if (this.state.regionChanged === false) {
+              this.stopCenter();
+              this.setState({
+                regionChanged: true,
+              })
+            }
           }}
         >
           <UserLocation userPosition={this.state.userPosition} />
