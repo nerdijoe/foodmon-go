@@ -19,6 +19,12 @@ export const SignUp = data => ((dispatch) => {
     type: actionType.ADD_COUNTER,
   });
   Actions.signin();
+  Toast.show({
+    text: 'Signed up successfully',
+    position: 'center',
+    type: 'success',
+    duration: 2000,
+  });
 });
 
 export const signin = data => ((dispatch) => {
@@ -34,10 +40,10 @@ export const signin = data => ((dispatch) => {
         });
         Actions.profile();
         Toast.show({
-          text: 'Login successfully !',
-          position: 'bottom',
+          text: 'You have signed in',
+          position: 'center',
           type: 'success',
-          duration: 3000,
+          duration: 2000,
         });
       });
     });

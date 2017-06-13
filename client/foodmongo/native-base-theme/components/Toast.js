@@ -18,10 +18,12 @@ export default (variables = variable) => {
       backgroundColor: variables.brandSuccess
     },
     backgroundColor: 'rgba(0,0,0,0.8)',
-    borderRadius: (platform==='ios') ? 5 : 0,
+    borderRadius: (platform==='ios') ? 5 : 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
     padding: 10,
     minHeight: 50,
     'NativeBase.Text': {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { Icon } from 'native-base';
+import { Icon, Toast } from 'native-base';
 
 import { addInterest, removeInterest } from '../actions';
 
@@ -66,6 +66,13 @@ export class InterestItem extends Component {
   handleAdd() {
     if (this.props.user.interestArr){
       this.props.addInterest(this.props.cuisine, this.props.user);
+    } else {
+      Toast.show({
+        text: 'Please login to pick your interests.',
+        position: 'center',
+        type: 'warning',
+        duration: 2000,
+      });
     }
   }
 
