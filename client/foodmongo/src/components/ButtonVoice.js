@@ -40,6 +40,14 @@ const styles = StyleSheet.create({
 });
 
 class ButtonVoice extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGetDirections: false,
+      totalDuration: 0,
+      totalDistance: 0,
+    };
+  }
 
   async getSpeech() {
     try {
@@ -70,15 +78,17 @@ class ButtonVoice extends Component {
         } else {
           // format message
           const restaurant = this.props.restaurants[number - 1].restaurant;
-          message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
-          console.log(`message='${message}'`);
-          SpeechNotification.speak({
-            message,
-            language: 'id-ID',
-          });
+          // message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+          // console.log(`message='${message}'`);
+          // SpeechNotification.speak({
+          //   message,
+          //   language: 'id-ID',
+          // });
 
           console.log('===> userPosition=', this.props.userPosition);
-          this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);        }
+          // this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);
+          this.getDirectionsV2(number, restaurant);
+        }
 
       } else if (spokenText.match(/batal/)) {
         // clear polyline
@@ -136,6 +146,47 @@ class ButtonVoice extends Component {
     }
   }
 
+  async getDirectionsV2(number, restaurant) {
+    const startLoc = `${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`;
+    const destinationLoc = `${restaurant.location.latitude}, ${restaurant.location.longitude}`;
+    try {
+      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
+      let respJson = await resp.json();
+      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      let coords = points.map((point, index) => {
+          return  {
+              latitude : point[0],
+              longitude : point[1]
+          }
+      });
+
+      // this.setState({ coords: coords });
+      // call actions
+      this.props.updateCoordinates(coords);
+
+      let totalDuration = Math.floor(respJson.routes[0].legs[0].duration.value / 60);
+      console.log(`totalDuration: `, totalDuration);
+
+      this.setState({
+        isGetDirections: true,
+        totalDuration,
+      });
+
+      let message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+      console.log(`message='${message}'`);
+      SpeechNotification.speak({
+        message,
+        language: 'id-ID',
+      });
+
+
+      return coords;
+    } catch(error) {
+      alert(error);
+      return error;
+    }
+  }
+
   startSpeaking() {
     console.log('startSpeaking', this);
 
@@ -166,19 +217,20 @@ class ButtonVoice extends Component {
   render() {
     return (
       <View style={styles.buttonContainer}>
-        <Button
-          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
+        <Button rounded
+          style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.startSpeaking(); }}
         >
           <Icon name="md-megaphone" style={{ color: '#FFCD38' }} />
         </Button>
 
-        <Button
-          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
+        <Button rounded
+          style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.getSpeech(); }}
         >
           <Icon name="md-mic" style={{ color: '#FFCD38' }} />
         </Button>
+        <Button light rounded><Text>{this.state.totalDuration}</Text></Button>
       </View>
     );
   }
