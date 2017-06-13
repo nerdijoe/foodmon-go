@@ -14,7 +14,7 @@ import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
   container: {
-    // ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     height: '100%',
     width: '100%',

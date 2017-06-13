@@ -17,7 +17,6 @@ import Profile from './components/Profile';
 import InterestsList from './components/InterestsList';
 import Swiper from './components/Swiper';
 import { fetch_login, fetchUser, fetchInterests } from './actions';
-import MapDirections from './components/MapDirections';
 
 const styles = StyleSheet.create({
   map: {
@@ -75,7 +74,6 @@ class App extends Component {
           <Scene key="signin" component={SignIn} title="Sign In" />
           <Scene key="profile" component={Profile} title="Profile" />
           <Scene key="swiper" component={Swiper} title="Swiper" />
-          <Scene key="mapdirections" component={MapDirections} title="Directions" />
         </Router>
 
         <FooterTabs />
