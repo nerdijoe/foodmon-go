@@ -107,7 +107,6 @@ class Map extends Component {
   startCenter() {
     const that = this
     currentRegion = setInterval(() => {
-      console.log('centered');
       navigator.geolocation.getCurrentPosition((position) => {
         const region = {
           latitude: position.coords.latitude,
@@ -169,7 +168,6 @@ class Map extends Component {
           style={styles.map}
           region={this.state.region}
           onRegionChange={(e) => {
-            console.log('regionChanged');
             this.onRegionChange(e);
             if (this.state.regionChanged === false) {
               this.stopCenter();

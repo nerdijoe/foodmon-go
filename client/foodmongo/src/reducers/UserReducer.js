@@ -1,12 +1,6 @@
 import * as actionType from '../actions/constants';
-import { Actions } from 'react-native-router-flux';
 
-const initialState = {
-  name: '',
-  username: '',
-  email: '',
-  interestArr: [],
-};
+const initialState = {};
 
 
 const reset_login = (state, payload) => {
@@ -16,7 +10,6 @@ const reset_login = (state, payload) => {
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.SIGN_UP: {
-
       return {
         ...state,
         name: action.data.name,
