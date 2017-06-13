@@ -162,7 +162,7 @@ class Map extends Component {
 
   render() {
     return (
-      <Container style={styles.container}>
+      <Container>
         <MapView
           style={styles.map}
           region={this.state.region}

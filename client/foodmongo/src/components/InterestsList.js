@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ListView, Text } from 'react-native';
-import { Container, Header, Item, Input, Icon, Button } from 'native-base';
+import { Header, Item, Input, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 
 import InterestItem from './InterestItem';

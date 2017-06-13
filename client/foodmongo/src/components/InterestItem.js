@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
+import { Icon } from 'native-base';
 
 import { addInterest, removeInterest } from '../actions';
 
@@ -20,7 +21,6 @@ export class InterestItem extends Component {
         width: this.state.width / 3,
         backgroundColor: 'rgba(0,0,0,0)',
         borderWidth: 1,
-        borderStyle: 'solid',
         borderColor: 'white',
       },
       headline: {
@@ -35,6 +35,23 @@ export class InterestItem extends Component {
         textAlign: 'center',
         backgroundColor: 'rgba(0,0,0,0)',
         color: 'black',
+        paddingTop: 10,
+      },
+      overlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+      },
+      overlaySelected: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.2)',
       },
     });
   }
@@ -61,13 +78,21 @@ export class InterestItem extends Component {
               onPress={() => { this.props.removeInterest(this.props.cuisine, this.props.user); }}
             >
               <Image
-                source={{ uri: `http://loremflickr.com/g/300/300/${this.props.cuisine.cuisine_name},food/all` }}
+                source={{ uri: `http://loremflickr.com/300/300/${this.props.cuisine.cuisine_name},food/all` }}
                 style={this.styles.backdropView}
               >
-                <View>
+                <View style={this.styles.overlaySelected}>
                   <Text style={this.styles.headline}>
-                    {this.props.cuisine.cuisine_name} selected
+                    {this.props.cuisine.cuisine_name}
                   </Text>
+                  <Icon
+                    name="md-checkmark-circle"
+                    style={{
+                      color: 'green',
+                      fontSize: 64,
+                      alignSelf: 'center',
+                    }}
+                  />
                 </View>
               </Image>
             </TouchableOpacity>
@@ -82,10 +107,10 @@ export class InterestItem extends Component {
         onPress={() => { this.handleAdd(); }}
       >
         <Image
-          source={{ uri: `http://loremflickr.com/300/300/${this.props.cuisine.cuisine_name},food/all` }}
+          source={{ uri: `http://loremflickr.com/g/300/300/${this.props.cuisine.cuisine_name},food/all` }}
           style={this.styles.backdropView}
         >
-          <View>
+          <View style={this.styles.overlay}>
             <Text style={this.styles.headline}>
               {this.props.cuisine.cuisine_name}
             </Text>
