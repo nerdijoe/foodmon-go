@@ -41,7 +41,7 @@ export class Profile extends React.Component {
             <Right>
               <TouchableOpacity
                 onPress={() => { this.props.removeInterest(item, this.props.user); }}>
-                <Icon name="trash" style={{ color: '#F03861' }} />
+                <Icon name="md-close" style={{ color: '#F03861' }} />
               </TouchableOpacity>
             </Right>
           </ListItem>)}
