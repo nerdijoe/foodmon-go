@@ -21,6 +21,11 @@ export class Profile extends React.Component {
     });
   }
 
+  onGetDirections(){
+    Actions.mapdirections();
+    this.props.addCounter();
+  }
+
   handleListInterests() {
     if(this.props.user.interestArr.length == 0){
       return (<Text style={{ padding: 20, textAlign: 'center' }}>Empty Interest list, you can add it in the interest menu</Text>);
@@ -74,6 +79,10 @@ export class Profile extends React.Component {
               <Text>{this.props.user.username}</Text>
                 <Button small bordered style={{ marginTop: 5 }}>
                   <Text note onPress={() => this.onLogout()} style={{ margin: 0, fontSize: 12 }}>Logout</Text>
+                </Button>
+
+                <Button small bordered style={{ marginTop: 5 }}>
+                  <Text note onPress={() => this.onGetDirections()} style={{ margin: 0, fontSize: 12 }}>direction</Text>
                 </Button>
             </Body>
           </List>

@@ -14,7 +14,7 @@ import { fetchZomato } from '../actions';
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     flex: 1,
     height: '100%',
     width: '100%',
@@ -68,6 +68,7 @@ class Map extends Component {
   componentDidMount() {
     this.startMoving();
     this.startWatching();
+    console.log('&&& this.props.coords ', this.props.coords)
   }
 
   componentWillUnmount() {
@@ -175,9 +176,16 @@ class Map extends Component {
             />
           ))}
 
+          <MapView.Polyline
+            coordinates={this.props.coords}
+            strokeWidth={2}
+            strokeColor="red"
+          />
+
         </MapView>
 
-        <ButtonVoice />
+
+        <ButtonVoice userPosition={this.state.userPosition} />
         {this.reCenterButton()}
       </Container>
     );
@@ -186,6 +194,7 @@ class Map extends Component {
 
 const mapStateToProps = state => ({
   restaurants: state.restaurants,
+  coords: state.directions.coords,
 });
 
 const mapDispatchToProps = dispatch => ({

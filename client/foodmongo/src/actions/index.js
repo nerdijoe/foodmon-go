@@ -172,3 +172,10 @@ export const fetchZomato = (latitude, longitude) => ((dispatch) => {
     });
   });
 });
+
+export const updateCoordinates = (coords) => {
+  return {
+    type: actionType.UPDATE_COORDINATES,
+    coords,
+  };
+};
