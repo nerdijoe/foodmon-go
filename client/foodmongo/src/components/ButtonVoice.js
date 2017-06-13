@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 10,
+    marginHorizontal: 5,
     backgroundColor: 'transparent',
   },
   buttonBase: {
