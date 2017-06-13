@@ -1,7 +1,6 @@
 import MapView from 'react-native-maps';
 import React, { Component } from 'react';
 import { Content } from 'native-base';
-import { View, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import RecommendationCallout from './RecommendationCallout';
@@ -21,9 +20,8 @@ class Recommendation extends Component {
         }
       }
       return marker;
-    } else {
-      return marker;
     }
+    return marker;
   }
 
   render() {
@@ -35,9 +33,9 @@ class Recommendation extends Component {
             latitude: Number(this.props.restaurant.location.latitude),
             longitude: Number(this.props.restaurant.location.longitude),
           }}
-          onPress={()=>{this.props.handleClick()}}
+          onPress={() => { this.props.handleClick(); }}
         >
-          <RecommendationCallout restaurant={this.props.restaurant} />
+          <RecommendationCallout index={this.props.index} restaurant={this.props.restaurant} />
         </MapView.Marker>
       </Content>
     )

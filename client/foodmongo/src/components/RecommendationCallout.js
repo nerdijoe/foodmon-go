@@ -15,32 +15,29 @@ const styles = StyleSheet.create({
     padding: 15,
     width: 180,
   },
-  // Arrow below the bubble
-  arrow: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#fff',
-    borderWidth: 16,
-    alignSelf: 'center',
-    marginTop: -32,
-  },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    borderWidth: 16,
-    alignSelf: 'center',
-    marginTop: -0.5,
-  },
-  // Character name
   name: {
     fontSize: 16,
     marginBottom: 5,
   },
-  // Character image
   image: {
     width: 150,
     height: 100,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  index: {
+    alignSelf: 'center',
+    color: '#FFCD38',
+    fontWeight: 'bold',
+  },
+  indexBackground: {
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#4A4A4A',
   },
 });
 
@@ -63,8 +60,12 @@ class RecommendationCallout extends Component {
         <View style={styles.container}>
           <View style={styles.bubble}>
             <View>
+              <View style={styles.indexBackground}>
+                <Text style={styles.index}>{this.props.index.toString()}</Text>
+              </View>
               <Text style={styles.name}>{this.props.restaurant.name}</Text>
-              <Text style={{ marginBottom: 5 }}>{this.props.restaurant.cuisines}</Text><Image
+              <Text style={{ marginBottom: 5 }}>{this.props.restaurant.cuisines}</Text>
+              <Image
                 style={styles.image}
                 source={this.handleImage()}
               />

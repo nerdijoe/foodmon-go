@@ -179,9 +179,10 @@ class Map extends Component {
           }}
         >
           <UserLocation userPosition={this.state.userPosition} />
-          {this.props.restaurants.map(restaurant => (
+          {this.props.restaurants.map((restaurant, index) => (
             <Recommendation
               key={restaurant.restaurant.id}
+              index={index+1}
               restaurant={restaurant.restaurant}
               handleClick={() => {
                 this.stopCenter();
