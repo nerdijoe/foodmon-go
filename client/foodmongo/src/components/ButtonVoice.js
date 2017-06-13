@@ -53,8 +53,7 @@ class ButtonVoice extends Component {
       });
       // put logic here
 
-      if(spokenText.match(/\d/)) {
-
+      if (spokenText.match(/\d/)) {
         const input = spokenText.match(/\d/);
         console.log(`input=${input}`);
 
@@ -76,7 +75,6 @@ class ButtonVoice extends Component {
         // clear polyline
         this.props.updateCoordinates([]);
       }
-
     } catch (error) {
       switch (error) {
         case SpeechAndroid.E_VOICE_CANCELLED:
@@ -91,6 +89,29 @@ class ButtonVoice extends Component {
         /* And more errors that will be documented on Docs upon release */
         default: break;
       }
+    }
+  }
+
+  async getDirections(startLoc, destinationLoc) {
+    try {
+      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
+      let respJson = await resp.json();
+      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      let coords = points.map((point, index) => {
+          return  {
+              latitude : point[0],
+              longitude : point[1]
+          }
+      });
+
+      // this.setState({ coords: coords });
+      // call actions
+      this.props.updateCoordinates(coords);
+
+      return coords;
+    } catch(error) {
+      alert(error);
+      return error;
     }
   }
 
@@ -119,29 +140,6 @@ class ButtonVoice extends Component {
     //   message: '',
     //   language: 'en-US',
     // });
-  }
-
-  async getDirections(startLoc, destinationLoc) {
-    try {
-      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
-      let respJson = await resp.json();
-      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-      let coords = points.map((point, index) => {
-          return  {
-              latitude : point[0],
-              longitude : point[1]
-          }
-      });
-
-      // this.setState({ coords: coords });
-      // call actions
-      this.props.updateCoordinates(coords);
-
-      return coords;
-    } catch(error) {
-      alert(error);
-      return error;
-    }
   }
 
   render() {
