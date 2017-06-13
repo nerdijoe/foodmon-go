@@ -6,6 +6,8 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
+import { Button, Icon } from 'native-base';
+
 import { connect } from 'react-redux';
 import SpeechNotification from 'react-native-speech-notification';
 import SpeechAndroid from 'react-native-android-voice';
@@ -28,8 +30,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 10,
+    marginHorizontal: 5,
     backgroundColor: 'transparent',
+  },
+  buttonBase: {
+    borderRadius: 20,
   },
 });
 
@@ -38,31 +44,38 @@ class ButtonVoice extends Component {
   async getSpeech() {
     try {
       // More Locales will be available upon release.
-      const spokenText = await SpeechAndroid.startSpeech('Speak yo', SpeechAndroid.INDONESIAN);
+      const spokenText = await SpeechAndroid.startSpeech('Speak', SpeechAndroid.INDONESIAN);
       ToastAndroid.show(spokenText, ToastAndroid.LONG);
+      // ToastAndroid.showWithGravity('All Your Base Are Belong To Us', ToastAndroid.SHORT, ToastAndroid.CENTER);
 
       SpeechNotification.speak({
         message: spokenText,
         language: 'id-ID',
       });
       // put logic here
-      const input = spokenText.match(/\d/);
-      console.log(`input=${input}`);
 
-      const number = input[0];
-      console.log(`number='${number}'`);
+      if (spokenText.match(/\d/)) {
+        const input = spokenText.match(/\d/);
+        console.log(`input=${input}`);
 
-      // format message
-      const restaurant = this.props.restaurants[number - 1].restaurant;
-      const message = `oke bos, mari kita memulai navigasi ke ${number}. ${restaurant.name}`;
-      console.log(`message='${message}'`);
-      SpeechNotification.speak({
-        message,
-        language: 'id-ID',
-      });
+        const number = input[0];
+        console.log(`number='${number}'`);
 
-      console.log('===> userPosition=', this.props.userPosition);
-      this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);
+        // format message
+        const restaurant = this.props.restaurants[number - 1].restaurant;
+        const message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+        console.log(`message='${message}'`);
+        SpeechNotification.speak({
+          message,
+          language: 'id-ID',
+        });
+
+        console.log('===> userPosition=', this.props.userPosition);
+        this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);
+      } else if (spokenText.match(/batal/)) {
+        // clear polyline
+        this.props.updateCoordinates([]);
+      }
     } catch (error) {
       switch (error) {
         case SpeechAndroid.E_VOICE_CANCELLED:
@@ -77,6 +90,29 @@ class ButtonVoice extends Component {
         /* And more errors that will be documented on Docs upon release */
         default: break;
       }
+    }
+  }
+
+  async getDirections(startLoc, destinationLoc) {
+    try {
+      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
+      let respJson = await resp.json();
+      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      let coords = points.map((point, index) => {
+          return  {
+              latitude : point[0],
+              longitude : point[1]
+          }
+      });
+
+      // this.setState({ coords: coords });
+      // call actions
+      this.props.updateCoordinates(coords);
+
+      return coords;
+    } catch(error) {
+      alert(error);
+      return error;
     }
   }
 
@@ -107,44 +143,22 @@ class ButtonVoice extends Component {
     // });
   }
 
-  async getDirections(startLoc, destinationLoc) {
-    try {
-      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
-      let respJson = await resp.json();
-      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-      let coords = points.map((point, index) => {
-          return  {
-              latitude : point[0],
-              longitude : point[1]
-          }
-      });
-
-      // this.setState({ coords: coords });
-      // call actions
-      this.props.updateCoordinates(coords);
-
-      return coords;
-    } catch(error) {
-      alert(error);
-      return error;
-    }
-  }
-
   render() {
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.bubble, styles.button]}
+        <Button
+          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.startSpeaking(); }}
         >
-          <Text>iku</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.bubble, styles.button]}
+          <Icon name="md-megaphone" style={{ color: '#FFCD38' }} />
+        </Button>
+
+        <Button
+          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.getSpeech(); }}
         >
-          <Text>iki</Text>
-        </TouchableOpacity>
+          <Icon name="md-mic" style={{ color: '#FFCD38' }} />
+        </Button>
       </View>
     );
   }
