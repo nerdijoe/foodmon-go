@@ -33,7 +33,7 @@ class Swiper extends Component {
             (<Card style={{ elevation: 3 }}>
               <CardItem>
                 <Left>
-                  <Thumbnail source={{ uri: item.restaurant.featured_image }} />
+                  <Thumbnail source={this.handleImage(item.restaurant.featured_image)} />
                   <Body>
                     <Text>{item.restaurant.name}</Text>
                     <Text note>{item.restaurant.cuisines}</Text>
@@ -44,7 +44,7 @@ class Swiper extends Component {
                 <Body style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                   <Image
                     style={{ width: 270, height: 220 }}
-                    source={{ uri: item.restaurant.featured_image }}
+                    source={ this.handleImage(item.restaurant.featured_image) }
                   />
                   <Text note style={{ margin: 20, textAlign: 'center' }}>{item.restaurant.location.address}</Text>
                 </Body>
@@ -63,7 +63,7 @@ class Swiper extends Component {
             (<Card style={{ elevation: 3 }}>
               <CardItem>
                 <Left>
-                  <Thumbnail source={{ uri: item.restaurant.featured_image }} />
+                  <Thumbnail source={this.handleImage(item.restaurant.featured_image)} />
                   <Body>
                     <Text>{item.restaurant.name}</Text>
                     <Text note>{item.restaurant.cuisines}</Text>
@@ -74,7 +74,7 @@ class Swiper extends Component {
                 <Body style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                   <Image
                     style={{ width: 270, height: 220 }}
-                    source={{ uri: item.restaurant.featured_image }}
+                    source={this.handleImage(item.restaurant.featured_image)}
                   />
                   <Text note style={{ margin: 20, textAlign: 'center' }}>{item.restaurant.location.address}</Text>
                 </Body>
@@ -84,6 +84,15 @@ class Swiper extends Component {
         />
       );
     }
+  }
+
+  handleImage(image) {
+    if (image) {
+      return {
+        uri: image
+      };
+    }
+    return {};
   }
 
   handleIcon(cuisines, interest) {
