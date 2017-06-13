@@ -4,8 +4,9 @@ import { Content } from 'native-base';
 import { View, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import fav from '../assets/recommendation/marker_fav_width100.png';
-import marker from '../assets/recommendation/marker_normal_width100.png'
+import RecommendationCallout from './RecommendationCallout';
+import fav from '../assets/recommendation/marker_fav.png';
+import marker from '../assets/recommendation/marker_normal.png';
 
 class Recommendation extends Component {
   handleInterest() {
@@ -25,15 +26,6 @@ class Recommendation extends Component {
     }
   }
 
-  handleImage() {
-    if(this.props.restaurant.featured_image){
-      return {
-        uri: this.props.restaurant.featured_image
-      }
-    }
-    return {}
-  }
-
   render() {
     return (
       <Content>
@@ -45,21 +37,7 @@ class Recommendation extends Component {
           }}
           onPress={()=>{this.props.handleClick()}}
         >
-          <MapView.Callout>
-            <View>
-              <Image
-                style={{ height: 150, width: 150 }}
-                source={this.handleImage()}
-              />
-              <Text>{this.props.restaurant.name}</Text>
-              <Text numberOfLines={2}>
-                {this.props.restaurant.location.address}
-              </Text>
-              <Text>
-                {this.props.restaurant.url}
-              </Text>
-            </View>
-          </MapView.Callout>
+          <RecommendationCallout restaurant={this.props.restaurant} />
         </MapView.Marker>
       </Content>
     )

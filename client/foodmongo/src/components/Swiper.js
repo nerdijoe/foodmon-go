@@ -103,7 +103,7 @@ class Swiper extends Component {
       <Container>
         <Header>
           <Body>
-            <Title>List Restaurants</Title>
+            <Title>Restaurants around you</Title>
           </Body>
         </Header>
         <View style={{ padding: 20 }}>
