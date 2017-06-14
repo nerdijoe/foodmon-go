@@ -63,7 +63,9 @@ class RecommendationCallout extends Component {
               <View style={styles.indexBackground}>
                 <Text style={styles.index}>{this.props.index.toString()}</Text>
               </View>
-              <Text style={styles.name}>{this.props.restaurant.name}</Text>
+              <View style={{ marginRight: 30 }}>
+               <Text style={styles.name}>{this.props.restaurant.name}</Text>
+              </View>
               <Text style={{ marginBottom: 5 }}>{this.props.restaurant.cuisines}</Text>
               <Image
                 style={styles.image}
