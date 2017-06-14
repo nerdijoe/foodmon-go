@@ -44,7 +44,7 @@ export class SignIn extends React.Component {
           <Button style={{ marginTop: 20 }} rounded success onPress={() => this.onLogin()} >
             <Text>Sign In</Text>
           </Button>
-          <Text style={{ paddingTop: 50, fontSize: 12, color: 'blue' }} onPress={() => this.onSignUp()} > Dont have an account? Sign Up</Text>
+          <Text style={{ paddingTop: 50, fontSize: 12, color: 'blue' }} onPress={() => this.onSignUp()} > Don&apos;t have an account? Sign up now.</Text>
         </Content>
       </Container>
     );
