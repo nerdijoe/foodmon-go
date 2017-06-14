@@ -24,7 +24,7 @@ export class InterestItem extends Component {
         borderColor: 'white',
       },
       headline: {
-        fontSize: 20,
+        fontSize: 17,
         textAlign: 'center',
         backgroundColor: 'rgba(0,0,0,0)',
         color: 'white',
