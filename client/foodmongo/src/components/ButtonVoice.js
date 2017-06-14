@@ -137,7 +137,7 @@ class ButtonVoice extends Component {
         return {
           latitude: point[0],
           longitude: point[1]
-        }
+        };
       });
 
       // call actions
@@ -154,25 +154,23 @@ class ButtonVoice extends Component {
     const startLoc = `${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`;
     const destinationLoc = `${restaurant.location.latitude}, ${restaurant.location.longitude}`;
     try {
-      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
-      let respJson = await resp.json();
-      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-      let coords = points.map((point, index) => {
-          return  {
-              latitude : point[0],
-              longitude : point[1]
-          }
+      const resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`);
+      const respJson = await resp.json();
+      const points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      const coords = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1]
+        };
       });
 
-      // this.setState({ coords: coords });
-      // call actions
       this.props.updateCoordinates(coords);
 
-      let totalDuration = Math.floor(respJson.routes[0].legs[0].duration.value / 60);
-      console.log(`totalDuration: `, totalDuration);
+      const totalDuration = Math.floor(respJson.routes[0].legs[0].duration.value / 60);
+      console.log(`totalDuration: ${totalDuration}`);
 
-      let totalDistance = (respJson.routes[0].legs[0].distance.value / 1000).toFixed(1);
-      console.log(`totalDistance: `, totalDistance);
+      const totalDistance = (respJson.routes[0].legs[0].distance.value / 1000).toFixed(1);
+      console.log(`totalDistance: ${totalDistance}`);
 
       this.setState({
         isGetDirections: true,
@@ -180,17 +178,16 @@ class ButtonVoice extends Component {
         totalDistance,
       });
 
-      let message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+      const message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
       console.log(`message='${message}'`);
       SpeechNotification.speak({
         message,
         language: 'id-ID',
       });
 
-
       return coords;
-    } catch(error) {
-      alert(error);
+    } catch (error) {
+      ToastAndroid.show('Speech to Text Error', ToastAndroid.LONG);
       return error;
     }
   }
@@ -257,14 +254,16 @@ class ButtonVoice extends Component {
   render() {
     return (
       <View style={styles.buttonContainer}>
-        <Button rounded
+        <Button
+          rounded
           style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.startSpeaking(); }}
         >
           <Icon name="md-megaphone" style={{ color: '#FFCD38' }} />
         </Button>
 
-        <Button rounded
+        <Button
+          rounded
           style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.getSpeech(); }}
         >
