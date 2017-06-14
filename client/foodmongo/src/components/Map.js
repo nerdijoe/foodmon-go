@@ -224,7 +224,7 @@ class Map extends Component {
             strokeColor="red"
           />
         </MapView>
-        <ButtonVoice userPosition={this.state.userPosition} />
+        <ButtonVoice userPosition={this.state.region} />
         {this.reCenterButton()}
         {this.handleGPSError()}
       </Container>
