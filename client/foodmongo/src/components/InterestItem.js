@@ -68,7 +68,7 @@ export class InterestItem extends Component {
       this.props.addInterest(this.props.cuisine, this.props.user);
     } else {
       Toast.show({
-        text: 'Please login to pick your interests.',
+        text: 'Please sign in to pick your interests.',
         position: 'center',
         type: 'warning',
         duration: 2000,
