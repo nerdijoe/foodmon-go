@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  TouchableOpacity,
   Text,
   View,
   ToastAndroid,
 } from 'react-native';
-import { Button, Icon, Card, CardItem } from 'native-base';
+import { Button, Icon } from 'native-base';
 
 import { connect } from 'react-redux';
 import SpeechNotification from 'react-native-speech-notification';
@@ -83,15 +82,7 @@ class ButtonVoice extends Component {
             language: 'id-ID',
           });
         } else {
-          // format message
           const restaurant = this.props.restaurants[number - 1].restaurant;
-          // message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
-          // console.log(`message='${message}'`);
-          // SpeechNotification.speak({
-          //   message,
-          //   language: 'id-ID',
-          // });
-
           console.log('===> userPosition=', this.props.userPosition);
           this.getDirectionsV2(number, restaurant);
         }
@@ -125,28 +116,6 @@ class ButtonVoice extends Component {
         /* And more errors that will be documented on Docs upon release */
         default: break;
       }
-    }
-  }
-
-  async getDirections(startLoc, destinationLoc) {
-    try {
-      const resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`);
-      const respJson = await resp.json();
-      const points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-      const coords = points.map((point, index) => {
-        return {
-          latitude: point[0],
-          longitude: point[1]
-        };
-      });
-
-      // call actions
-      this.props.updateCoordinates(coords);
-
-      return coords;
-    } catch (error) {
-      ToastAndroid.show('Speech to Text Error', ToastAndroid.LONG);
-      return error;
     }
   }
 
