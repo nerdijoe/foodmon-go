@@ -22,7 +22,7 @@ export class Profile extends React.Component {
   }
 
   handleListInterests() {
-    if(this.props.user.interestArr.length == 0){
+    if(this.props.user.interestArr && this.props.user.interestArr.length == 0){
       return (<Text style={{ padding: 20, textAlign: 'center' }}>Empty Interest list, you can add it in the interest menu</Text>);
     } else {
       return (
