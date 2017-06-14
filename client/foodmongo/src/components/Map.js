@@ -1,8 +1,6 @@
 import MapView from 'react-native-maps';
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Container } from 'native-base';
 
@@ -21,25 +19,36 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-
   },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  errorHandler: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: '#FFCD38',
+    fontWeight: 'bold',
+    fontSize: 24,
+    margin: 20,
+    textAlign: 'center',
+  },
 });
 
-var currentPosition, currentRegion, watchZomato;
+var currentPosition,
+  currentRegion;
 
 class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userPosition: {
-        latitude: -6.195024,
-        longitude: 106.823006,
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5,
-      },
       region: {
         latitude: -6.195024,
         longitude: 106.823006,
@@ -48,6 +57,7 @@ class Map extends Component {
       },
       markerClicked: false,
       regionChanged: false,
+      locationOn: true,
     };
   }
 
@@ -56,24 +66,17 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.startMoving();
     this.startWatching();
     this.startCenter();
   }
 
   componentWillUnmount() {
-    clearInterval(currentPosition);
+    clearInterval(currentRegion);
   }
 
   onRegionChange(region) {
     this.setState({
       region,
-    });
-  }
-
-  onUserPositionChange(userPosition) {
-    this.setState({
-      userPosition,
     });
   }
 
@@ -89,20 +92,9 @@ class Map extends Component {
       };
       that.onRegionChange(region, position.coords.accuracy);
       that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
+    }, (err) => {
+      console.log(err);
     });
-  }
-
-  startMoving() {
-    const that = this;
-    currentPosition = setInterval(() => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const userPosition = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-        that.onUserPositionChange(userPosition);
-      });
-    }, 300);
   }
 
   startCenter() {
@@ -116,6 +108,17 @@ class Map extends Component {
           longitudeDelta: 0.00421 * 1.5,
         };
         that.onRegionChange(region);
+        if (that.state.locationOn === false) {
+          that.setState({
+            locationOn: true,
+          });
+        }
+      }, (err) => {
+        if (that.state.locationOn === true) {
+          that.setState({
+            locationOn: false,
+          });
+        }
       });
     }, 300)
   }
@@ -129,6 +132,17 @@ class Map extends Component {
     navigator.geolocation.watchPosition((position) => {
       if (this.state.markerClicked === false) {
         that.props.fetchZomato(position.coords.latitude, position.coords.longitude);
+      }
+      if (that.state.locationOn === false) {
+        that.setState({
+          locationOn: true,
+        });
+      }
+    }, (err) => {
+      if (that.state.locationOn === true) {
+        that.setState({
+          locationOn: false,
+        });
       }
     });
   }
@@ -161,9 +175,20 @@ class Map extends Component {
     }
   }
 
+  handleGPSError() {
+    if (this.state.locationOn === false) {
+      return (
+        <View style={styles.errorHandler}>
+          <Text style={styles.errorText}>Please turn on location or check for app permissions</Text>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <Container>
+
         <MapView
           style={styles.map}
           customMapStyle={customStyle}
@@ -177,8 +202,8 @@ class Map extends Component {
               })
             }
           }}
+          showsUserLocation={true}
         >
-          <UserLocation userPosition={this.state.userPosition} />
           {this.props.restaurants.map((restaurant, index) => (
             <Recommendation
               key={restaurant.restaurant.id}
@@ -193,18 +218,15 @@ class Map extends Component {
               }}
             />
           ))}
-
           <MapView.Polyline
             coordinates={this.props.coords}
             strokeWidth={2}
             strokeColor="red"
           />
-
         </MapView>
-
-
         <ButtonVoice userPosition={this.state.userPosition} />
         {this.reCenterButton()}
+        {this.handleGPSError()}
       </Container>
     );
   }
