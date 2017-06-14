@@ -49,6 +49,13 @@ export const signin = data => ((dispatch) => {
     });
   })
   .catch((err) => {
+    Toast.show({
+      text: 'Please check your username and password',
+      position: 'center',
+      type: 'danger',
+      duration: 2000,
+    });
+
     console.log(err);
   });
 });
