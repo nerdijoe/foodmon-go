@@ -80,14 +80,14 @@ export const fetchUser = () => ((dispatch) => {
 
 
 export const reset_login = () => {
-	return dispatch => {
-    let data = true;
+  return dispatch => {
+    const data = true;
     return dispatch({
-			type : actionType.RESET_LOGIN,
-			data
-		})
-  }
-}
+      type: actionType.RESET_LOGIN,
+      data,
+    });
+  };
+};
 
 export const actionSignUp = data => ((dispatch) => {
   axios.post('http://foodmongo-dev.us-west-2.elasticbeanstalk.com/auth/signup', {
@@ -138,39 +138,37 @@ export const addInterest = (interest, user) => ((dispatch) => {
 export const removeInterest = (interest, user) => ((dispatch) => {
   AsyncStorage.getItem('token', (err1, token) => {
     AsyncStorage.getItem('_id', (err2, id) => {
-      axios.put(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`, {
-        interestArr: [...user.interestArr.filter(userInterest => userInterest._id !== interest._id)],
-      }, {
-        headers: {
-          token,
-        },
-      }).then((res) => {
-        dispatch({
-          type: actionType.REMOVE_INTEREST_SUCCESS,
-          interest,
+      axios.put(`http://foodmongo-dev.us-west-2.elasticbeanstalk.com/users/${id}`,
+        {
+          interestArr:
+            [...user.interestArr.filter(userInterest => userInterest._id !== interest._id)],
+        }, {
+          headers: {
+            token,
+          },
+        }).then((res) => {
+          dispatch({
+            type: actionType.REMOVE_INTEREST_SUCCESS,
+            interest,
+          });
         });
-      });
     });
   });
 });
 
-export const addCounter = () => {
-  return {
-    type: actionType.ADD_COUNTER,
-  };
-};
+export const addCounter = () => ({
+  type: actionType.ADD_COUNTER,
+});
 
-export const subractCounter = () => {
-  return {
-    type: actionType.SUBTRACT_COUNTER,
-  };
-};
 
-export const resetCounter = () => {
-  return {
-    type: actionType.RESET_COUNTER,
-  };
-};
+export const subractCounter = () => ({
+  type: actionType.SUBTRACT_COUNTER,
+});
+
+export const resetCounter = () => ({
+  type: actionType.RESET_COUNTER,
+});
+
 
 export const fetchZomato = (latitude, longitude) => ((dispatch) => {
   axios.get(`https://developers.zomato.com/api/v2.1/search?lat=${latitude}&lon=${longitude}&radius=500&sort=rating&order=desc`, {
@@ -186,9 +184,7 @@ export const fetchZomato = (latitude, longitude) => ((dispatch) => {
   });
 });
 
-export const updateCoordinates = (coords) => {
-  return {
-    type: actionType.UPDATE_COORDINATES,
-    coords,
-  };
-};
+export const updateCoordinates = coords => ({
+  type: actionType.UPDATE_COORDINATES,
+  coords,
+});

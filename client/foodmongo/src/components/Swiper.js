@@ -6,7 +6,7 @@ import { Container, Icon, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Lef
 class Swiper extends Component {
 
   handleSwiper() {
-    if(this.props.user.interestArr){
+    if (this.props.user.interestArr) {
       const restaurants = [...this.props.restaurants];
       const user = this.props.user.interestArr;
       const card = [];
@@ -97,7 +97,7 @@ class Swiper extends Component {
   handleImage(image) {
     if (image) {
       return {
-        uri: image
+        uri: image,
       };
     }
     return {};
@@ -116,7 +116,7 @@ class Swiper extends Component {
   }
 
   render() {
-    console.log('prop', this.props.restaurants)
+    console.log('prop', this.props.restaurants);
     return (
       <Container>
         <Header>

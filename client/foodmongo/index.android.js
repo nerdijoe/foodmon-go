@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
@@ -12,7 +7,6 @@ import App from './src/App';
 import commonColor from './native-base-theme/variables/commonColor';
 import getTheme from './native-base-theme/components';
 
-//import store from './src/store';
 import store from './src/store/manageStore';
 
 export default class foodmongo extends Component {

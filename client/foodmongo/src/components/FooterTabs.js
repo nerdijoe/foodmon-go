@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addCounter, subtractCounter, resetCounter } from '../actions'
+import { addCounter, subtractCounter, resetCounter } from '../actions';
 
 export class FooterTabs extends Component {
   constructor(props) {
@@ -15,20 +15,20 @@ export class FooterTabs extends Component {
     };
   }
 
-  componentDidMount(){
-    console.log("this.props.user_login ", this.props.user_login)
+  componentDidMount() {
+    console.log('this.props.user_login ', this.props.user_login);
     AsyncStorage.getItem('token', (err1, token) => {
       console.log('FooterTabs componentDidMount', token);
       if (token) {
         this.setState({
           auth_title: 'Profile',
-        })
+        });
       }
     });
   }
 
   onPressHandler = (key) => {
-    console.log(`onPress ${key}`)
+    console.log(`onPress ${key}`);
 
     if (key === 'map') {
       console.log('nav_counter=', this.props.nav_counter);
@@ -49,7 +49,7 @@ export class FooterTabs extends Component {
         }
         // Actions.signin();
       });
-      console.log('*** FooterTab Actions.currentRouter.currentRoute=', Actions)
+      console.log('*** FooterTab Actions.currentRouter.currentRoute=', Actions);
 
       if (this.state.selectedTab !== key) {
         this.props.addCounter();
@@ -98,20 +98,16 @@ export class FooterTabs extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    nav_counter: state.NavReducer.counter,
-    user_login: state.UserReducer,
-  };
-};
+const mapStateToProps = state => ({
+  nav_counter: state.NavReducer.counter,
+  user_login: state.UserReducer,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addCounter: () => { dispatch(addCounter()); },
-    subtractCounter: () => { dispatch(subtractCounter()); },
-    resetCounter: () => { dispatch(resetCounter()); },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  addCounter: () => { dispatch(addCounter()); },
+  subtractCounter: () => { dispatch(subtractCounter()); },
+  resetCounter: () => { dispatch(resetCounter()); },
+});
 
 const connectedFooterTabs = connect(mapStateToProps, mapDispatchToProps)(FooterTabs);
 export default connectedFooterTabs;

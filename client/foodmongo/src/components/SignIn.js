@@ -39,7 +39,7 @@ export class SignIn extends React.Component {
           </Item>
           <Item floatingLabel>
             <Label>Password</Label>
-            <Input secureTextEntry={true} onChangeText={password => this.setState({ password })} />
+            <Input secureTextEntry onChangeText={password => this.setState({ password })} />
           </Item>
           <Button style={{ marginTop: 20 }} rounded success onPress={() => this.onLogin()} >
             <Text>Sign In</Text>

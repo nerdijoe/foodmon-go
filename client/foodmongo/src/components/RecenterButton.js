@@ -9,7 +9,7 @@ const RecenterButton = props => (
     onPress={() => { props.handlePress(); }}
     style={{ position: 'absolute', bottom: 10, right: 10 }}
   >
-    <Icon name="md-navigate" style ={{ color: 'white' }}/>
+    <Icon name="md-navigate" style={{ color: 'white' }} />
     <Text style={{ color: 'white' }}> Re-Center </Text>
   </Button>
 );
