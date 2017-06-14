@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Icon, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Header, Title } from 'native-base';
 
@@ -42,11 +42,13 @@ class Swiper extends Component {
               </CardItem>
               <CardItem cardBody>
                 <Body style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                  <Image
-                    style={{ width: 270, height: 220 }}
-                    source={ this.handleImage(item.restaurant.featured_image) }
-                  />
-                  <Text note style={{ margin: 20, textAlign: 'center' }}>{item.restaurant.location.address}</Text>
+                  <TouchableOpacity onPress={() => this.onLink(item.restaurant.url)}>
+                    <Image
+                      style={{ width: 270, height: 220 }}
+                      source={this.handleImage(item.restaurant.featured_image)}
+                    />
+                  </TouchableOpacity>
+                  <Text note style={{ margin: 20, textAlign: 'left' }}>Average cost for two : {item.restaurant.average_cost_for_two} {item.restaurant.currency} {'\n'} {item.restaurant.location.address}</Text>
                 </Body>
               </CardItem>
               {this.handleIcon(item.restaurant.cuisines, interest)}
@@ -72,11 +74,13 @@ class Swiper extends Component {
               </CardItem>
               <CardItem cardBody>
                 <Body style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                  <Image
-                    style={{ width: 270, height: 220 }}
-                    source={this.handleImage(item.restaurant.featured_image)}
-                  />
-                  <Text note style={{ margin: 20, textAlign: 'center' }}>{item.restaurant.location.address}</Text>
+                  <TouchableOpacity onPress={() => this.onLink(item.restaurant.url)}>
+                    <Image
+                      style={{ width: 270, height: 220 }}
+                      source={this.handleImage(item.restaurant.featured_image)}
+                    />
+                  </TouchableOpacity>
+                  <Text note style={{ margin: 20, textAlign: 'left' }}>Average cost for two : {item.restaurant.average_cost_for_two} {item.restaurant.currency} {'\n'} {item.restaurant.location.address}</Text>
                 </Body>
               </CardItem>
             </Card>)
@@ -84,6 +88,10 @@ class Swiper extends Component {
         />
       );
     }
+  }
+
+  onLink(url) {
+    return Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }
 
   handleImage(image) {
@@ -108,6 +116,7 @@ class Swiper extends Component {
   }
 
   render() {
+    console.log('prop', this.props.restaurants)
     return (
       <Container>
         <Header>

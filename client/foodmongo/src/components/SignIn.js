@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Text, Content, Item, Input, Label, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { signin, addCounter } from '../actions';
@@ -20,7 +19,7 @@ export class SignIn extends React.Component {
   }
 
   onSignUp() {
-    Actions.signup()
+    Actions.signup();
     this.props.addCounter();
   }
 
@@ -53,11 +52,11 @@ export class SignIn extends React.Component {
 }
 
 const mapStateToProps = state => ({
-	userLogin: state
-})
+  userLogin: state,
+});
 
 const mapDispatchToProps = dispatch => ({
-  signin: (data) => dispatch(signin(data)),
+  signin: data => dispatch(signin(data)),
   addCounter: () => { dispatch(addCounter()); },
 });
 
