@@ -5,7 +5,6 @@ import { Icon, Toast } from 'native-base';
 
 import { addInterest, removeInterest } from '../actions';
 
-
 export class InterestItem extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +63,7 @@ export class InterestItem extends Component {
   //   });
   // }
   handleAdd() {
-    if (this.props.user.interestArr){
+    if (this.props.user.interestArr) {
       this.props.addInterest(this.props.cuisine, this.props.user);
     } else {
       Toast.show({
@@ -77,7 +76,7 @@ export class InterestItem extends Component {
   }
 
   handleInterest() {
-    if(this.props.user.interestArr) {
+    if (this.props.user.interestArr) {
       for (let i = 0; i < this.props.user.interestArr.length; i++) {
         if (this.props.user.interestArr[i]._id === this.props.cuisine._id){
           return (
@@ -103,7 +102,7 @@ export class InterestItem extends Component {
                 </View>
               </Image>
             </TouchableOpacity>
-          )
+          );
         }
       }
     }

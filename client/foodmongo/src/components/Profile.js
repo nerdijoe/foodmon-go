@@ -22,7 +22,7 @@ export class Profile extends React.Component {
   }
 
   handleListInterests() {
-    if(this.props.user.interestArr && this.props.user.interestArr.length == 0){
+    if(this.props.user.interestArr && this.props.user.interestArr.length === 0) {
       return (<Text style={{ padding: 20, textAlign: 'center' }}>Empty Interest list, you can add it in the interest menu</Text>);
     } else {
       return (
@@ -40,7 +40,8 @@ export class Profile extends React.Component {
             </Body>
             <Right>
               <TouchableOpacity
-                onPress={() => { this.props.removeInterest(item, this.props.user); }}>
+                onPress={() => { this.props.removeInterest(item, this.props.user); }}
+              >
                 <Icon name="md-close" style={{ color: '#F03861' }} />
               </TouchableOpacity>
             </Right>
@@ -70,7 +71,7 @@ export class Profile extends React.Component {
         <Content>
           <List contentContainerStyle={{ padding: 20, alignItems: 'center', flex: 1, justifyContent: 'center' }}>
             <Body style={{ paddingTop: 20 }}>
-              <Thumbnail size={80} source={ require('../assets/profile/user_profile_female.png')} />
+              <Thumbnail size={80} source={require('../assets/profile/user_profile_female.png')} />
               <Text>{this.props.user.username}</Text>
               <Button small bordered style={{ marginTop: 5 }}>
                 <Text note

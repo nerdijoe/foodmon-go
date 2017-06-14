@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Container } from 'native-base';
 
 import Recommendation from './Recommendation';
-import UserLocation from './UserLocation';
 import ButtonVoice from './ButtonVoice';
 import RecenterButton from './RecenterButton';
 import { fetchZomato } from '../actions';
@@ -98,7 +97,7 @@ class Map extends Component {
   }
 
   startCenter() {
-    const that = this
+    const that = this;
     currentRegion = setInterval(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         const region = {

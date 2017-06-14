@@ -83,7 +83,7 @@ export class SignUp extends React.Component {
             </Item>
             <Item floatingLabel last>
               <Label>Password</Label>
-              <Input secureTextEntry={true} value={this.state.password} onChangeText={(text) => { this.handleChangeInput('password', text); }} />
+              <Input secureTextEntry value={this.state.password} onChangeText={(text) => { this.handleChangeInput('password', text); }} />
             </Item>
 
           </Form>
@@ -96,11 +96,9 @@ export class SignUp extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signUp: (data) => { dispatch(actionSignUp(data)); },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  signUp: (data) => { dispatch(actionSignUp(data)); },
+});
 
 const connectedSignUp = connect(null, mapDispatchToProps)(SignUp);
 export default connectedSignUp;

@@ -4,7 +4,6 @@ import { Header, Item, Input, Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 
 import InterestItem from './InterestItem';
-import { fetchInterests } from '../actions';
 
 const styles = StyleSheet.create({
   backdrop: {
@@ -44,7 +43,7 @@ export class InterestsList extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search Interest" onChangeText={(searchTerm) => { this.setState({ searchTerm }); }}/>
+            <Input placeholder="Search Interest" onChangeText={(searchTerm) => { this.setState({ searchTerm }); }} />
             <Icon name="md-paper-plane" />
           </Item>
           <Button transparent>

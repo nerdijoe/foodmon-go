@@ -206,18 +206,19 @@ class ButtonVoice extends Component {
           <Button
             light
             small
-            rounded onPress={() => { this.clearDirAndInformation(); }}
+            rounded
+            onPress={() => { this.clearDirAndInformation(); }}
             style={{ paddingHorizontal: 0 }}
           >
             <Icon name="md-close" style={{ color: '#F03861', fontSize: 10 }} />
           </Button>
         </View>
-      )
+      );
     }
 
     return (
-      <Text></Text>
-    )
+      <Text />
+    );
   }
 
   render() {
