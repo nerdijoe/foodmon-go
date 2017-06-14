@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  TouchableOpacity,
   Text,
   View,
   ToastAndroid,
@@ -22,6 +21,19 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
   },
+  InformationContainer: {
+    flexDirection: 'row',
+    margin: 5,
+  },
+  bubbleInformation: {
+    backgroundColor: 'rgba(255, 205, 56, 0.9)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  item: {
+    flexDirection: 'row',
+  },
   button: {
     width: 80,
     paddingHorizontal: 12,
@@ -40,18 +52,20 @@ const styles = StyleSheet.create({
 });
 
 class ButtonVoice extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGetDirections: false,
+      totalDuration: 0,
+      totalDistance: 0,
+    };
+  }
 
   async getSpeech() {
     try {
       // More Locales will be available upon release.
       const spokenText = await SpeechAndroid.startSpeech('Speak', SpeechAndroid.INDONESIAN);
       ToastAndroid.show(spokenText, ToastAndroid.LONG);
-      // ToastAndroid.showWithGravity('All Your Base Are Belong To Us', ToastAndroid.SHORT, ToastAndroid.CENTER);
-
-      // SpeechNotification.speak({
-      //   message: spokenText,
-      //   language: 'id-ID',
-      // });
 
       let message = '';
       if (spokenText.match(/[\d]+/)) {
@@ -61,28 +75,20 @@ class ButtonVoice extends Component {
         const number = input[0];
         console.log(`number='${number}'`);
 
-        if (number - 1 > this.props.restaurants.length) {
-          message = `Maaf bos, pilihan anda salah.`;
+        if (number - 1 >= this.props.restaurants.length) {
+          message = `Maaf bos, restoran nomor ${number} tidak ada.`;
           SpeechNotification.speak({
             message,
             language: 'id-ID',
           });
         } else {
-          // format message
           const restaurant = this.props.restaurants[number - 1].restaurant;
-          message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
-          console.log(`message='${message}'`);
-          SpeechNotification.speak({
-            message,
-            language: 'id-ID',
-          });
-
           console.log('===> userPosition=', this.props.userPosition);
-          this.getDirections(`${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`, `${restaurant.location.latitude}, ${restaurant.location.longitude}`);        }
-
+          this.getDirectionsV2(number, restaurant);
+        }
       } else if (spokenText.match(/batal/)) {
-        // clear polyline
-        this.props.updateCoordinates([]);
+        // clear polyline and information bubble
+        this.clearDirAndInformation();
       } else if (spokenText.match(/iku/)) {
         message = 'Pancasila.. 1. Ketuhanan Yang Maha Esa, 2. kemanusiaan yang adil dan beradab, 3. persatuan Indonesia, 4. kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan, 5. keadilan sosial bagi seluruh rakyat Indonesia';
         SpeechNotification.speak({
@@ -113,25 +119,44 @@ class ButtonVoice extends Component {
     }
   }
 
-  async getDirections(startLoc, destinationLoc) {
+  async getDirectionsV2(number, restaurant) {
+    const startLoc = `${this.props.userPosition.latitude}, ${this.props.userPosition.longitude}`;
+    const destinationLoc = `${restaurant.location.latitude}, ${restaurant.location.longitude}`;
     try {
-      let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
-      let respJson = await resp.json();
-      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-      let coords = points.map((point, index) => {
-          return  {
-              latitude : point[0],
-              longitude : point[1]
-          }
+      const resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`);
+      const respJson = await resp.json();
+      const points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      const coords = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1]
+        };
       });
 
-      // this.setState({ coords: coords });
-      // call actions
       this.props.updateCoordinates(coords);
 
+      const totalDuration = Math.floor(respJson.routes[0].legs[0].duration.value / 60);
+      console.log(`totalDuration: ${totalDuration}`);
+
+      const totalDistance = (respJson.routes[0].legs[0].distance.value / 1000).toFixed(1);
+      console.log(`totalDistance: ${totalDistance}`);
+
+      this.setState({
+        isGetDirections: true,
+        totalDuration,
+        totalDistance,
+      });
+
+      const message = `oke bos, ini caranya menuju ke ${number}. ${restaurant.name}`;
+      console.log(`message='${message}'`);
+      SpeechNotification.speak({
+        message,
+        language: 'id-ID',
+      });
+
       return coords;
-    } catch(error) {
-      alert(error);
+    } catch (error) {
+      ToastAndroid.show('Speech to Text Error', ToastAndroid.LONG);
       return error;
     }
   }
@@ -152,33 +177,68 @@ class ButtonVoice extends Component {
       message,
       language: 'id-ID',
     });
+  }
 
-    // SpeechNotification.notify({
-    //   title: 'IKU',
-    //   icon: 'icon',
-    // // {icon}.png/.jpg must be present in each
-    // //   corresponding android/app/src/main/res/drawable-*dpi/ folders
-    //   message: '',
-    //   language: 'en-US',
-    // });
+  clearDirAndInformation() {
+    this.setState({
+      isGetDirections: false,
+      totalDuration: 0,
+      totalDistance: 0,
+    });
+    this.props.updateCoordinates([]);
+  }
+
+  showInformation() {
+    if (this.state.isGetDirections) {
+      return (
+        <View style={styles.InformationContainer}>
+          <View style={styles.bubbleInformation}>
+            <View style={styles.item}>
+              <Icon name="md-stopwatch" style={{ color: '#4A4A4A', fontSize: 20 }} />
+              <Text> {this.state.totalDuration} min</Text>
+            </View>
+            <View style={styles.item}>
+              <Icon name="md-code-working" style={{ color: '#4A4A4A', fontSize: 20 }} />
+              <Text> {this.state.totalDistance} km</Text>
+            </View>
+
+          </View>
+          <Button
+            light
+            small
+            rounded onPress={() => { this.clearDirAndInformation(); }}
+            style={{ paddingHorizontal: 0 }}
+          >
+            <Icon name="md-close" style={{ color: '#F03861', fontSize: 10 }} />
+          </Button>
+        </View>
+      )
+    }
+
+    return (
+      <Text></Text>
+    )
   }
 
   render() {
     return (
       <View style={styles.buttonContainer}>
         <Button
-          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
+          rounded
+          style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.startSpeaking(); }}
         >
           <Icon name="md-megaphone" style={{ color: '#FFCD38' }} />
         </Button>
 
         <Button
-          style={{ borderRadius: 20, backgroundColor: '#4A4A4A', margin: 5 }}
+          rounded
+          style={{ backgroundColor: '#4A4A4A', margin: 5 }}
           onPress={() => { this.getSpeech(); }}
         >
           <Icon name="md-mic" style={{ color: '#FFCD38' }} />
         </Button>
+        {this.showInformation()}
       </View>
     );
   }
