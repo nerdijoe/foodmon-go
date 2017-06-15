@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Icon, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Header, Title } from 'native-base';
+import imageNotAvailable from '../assets/imageNotAvailable/no-image.jpg';
 
 class Swiper extends Component {
 
@@ -97,10 +98,10 @@ class Swiper extends Component {
   handleImage(image) {
     if (image) {
       return {
-        uri: image
+        uri: image,
       };
     }
-    return {};
+    return imageNotAvailable;
   }
 
   handleIcon(cuisines, interest) {
