@@ -11,6 +11,7 @@
     "@mapbox/polyline": "^0.2.0",
     "axios": "^0.16.2",
     "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-remove-console": "^6.8.4",
     "eslint": "^3.19.0",
     "native-base": "^2.1.4",
     "react": "16.0.0-alpha.6",
